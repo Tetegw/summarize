@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Examples</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <link href="" rel="stylesheet">
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+  }
+
+  section {
+    padding: 0 10px
+  }
+
+  h2 {
+    line-height: 2;
+    font-size: 16px;
+    color: #f00;
+    font-style: normal;
+  }
+
+  ul {
+    border-top: 1px solid #999;
+  }
+
+  li {
+    padding: 1em 0;
+    text-align: center;
+    border-bottom: 1px solid #999;
+    -webkit-tap-highlight-color: #000;
+  }
+
+  [data-touch] {}
+
+  [data-touch].active {
+    background: #f0f0f0
+  }
+  </style>
+  <script src="fastclick.min.js"></script>
+</head>
+
+<body>
+  <script>
+  if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+      FastClick.attach(document.querySelector('#section'));
+    }, false);
+  }
+  </script>
+  <div id="clickEvent">
+    <section id="section">
+      <h2>点击事件无延迟</h2>
+      <ul class="ul">
+        <li>
+          点我
+        </li>
+        <li>
+          点我
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>点击事件有延迟</h2>
+      <ul class="ul">
+        <li>
+          点我
+        </li>
+        <li>
+          点我
+        </li>
+      </ul>
+    </section>
+  </div>
+  <section>
+    <h2>点击态</h2>
+    <ul id="touch">
+      <li data-touch="true">
+        点我
+      </li>
+      <li data-touch="true">
+        点我
+      </li>
+    </ul>
+  </section>
+
+  参考：https://www.uedsc.com/fastclick.html
+
+
+
+  <script>
+  //点击事件
+  var clickEvent = document.querySelector('#clickEvent');
+  var list = clickEvent.querySelectorAll('li');
+  for (var i = 0; i < list.length; i++) {
+    list[i].addEventListener('click', function() {
+      if (this.style.backgroundColor === 'red') {
+        this.style.backgroundColor = '#fff';
+      } else {
+        this.style.backgroundColor = 'red';
+      }
+    })
+  }
+
+  //点击态
+  document.body.addEventListener('touchstart', function(e) {
+    var target = e.target
+    if (target.dataset.touch === 'true') {
+      target.classList.add('active')
+    }
+  })
+  document.body.addEventListener('touchmove', function(e) {
+    var target = e.target
+    var rect = target.getBoundingClientRect()
+    if (target.dataset.touch === 'true') {
+      // 移出元素时，取消active状态
+      if (e.changedTouches[0].pageX < rect.left || e.changedTouches[0].pageX > rect.right || e.changedTouches[0].pageY < rect.top || e.changedTouches[0].pageY > rect.bottom) {
+        target.classList.remove('active')
+      }
+    }
+  })
+  document.body.addEventListener('touchcancel', function(e) {
+    var target = e.target
+    if (target.dataset.touch === 'true') {
+      target.classList.remove('active')
+    }
+  })
+  document.body.addEventListener('touchend', function(e) {
+    var target = e.target
+    if (target.dataset.touch === 'true') {
+      target.classList.remove('active')
+    }
+  })
+  </script>
+</body>
+
+</html>
