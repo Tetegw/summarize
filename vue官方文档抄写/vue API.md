@@ -1,5 +1,3 @@
-
-
 ## 全局配置
 
 `Vue.config`是一个对象，包含Vue的全局配置，可以在启动应用之前修改下列属性：
@@ -248,7 +246,7 @@
     //getter，返回已注册的指令
     var myDirective = Vue.directive('my-directive')
     ```
-    -参考： [自定义指令](https://cn.vuejs.org/v2/guide/custom-directive.html)
+- 参考： [自定义指令](https://cn.vuejs.org/v2/guide/custom-directive.html)
 
 ---
 ### Vue.filter(id, [definition])
@@ -1675,7 +1673,531 @@
 - 参考：[条件渲染-v-else-if](https://cn.vuejs.org/v2/guide/conditional.html#v-else-if)
 
 
+---
+### v-for
+- 预期：`Array | Object | number | string`
+- 用法：
+    基于源数据多次渲染元素或模版块。此指令之值，必须使用特定语法`alias in expression`，为当前遍历的元素提供别名：
+    ```html
+    <div v-for="item in items">
+        {{item.text}}
+    </div>
+    ```
+    另外也可以为数组索引指定别名（或者用于对象的键）
+    ```html
+    <div v-for="(item, index) in items"></div>
+    <div v-for="(val, key) in object"></div>
+    <div v-for="(val, key, index) in object"></div>
+    ```
+    `v-for`默认行为试着不改变整体，而是替换元素。迫使其重新排序的元素，您需要提供一个`key`的特殊属性：
+    ```html
+    <div v-for="item in items" :key="item.id">
+        {{item.text}}
+    </div>
+    ```
+    `v-for`的详细用法可以通过以下链接查看教程详细说明。
 
+- 参考：
+    - [列表渲染](https://cn.vuejs.org/v2/guide/list.html)
+    - [key](https://cn.vuejs.org/v2/guide/list.html#key)
+
+
+---
+### v-on
+- 缩写：`@`
+- 预期：`Function | Inline Statement | Object`
+- 参数：`event`
+- 修饰符：
+    - `.stop` -调用 `event.stopPropagation()`
+    - `.prevent` -调用 `event.preventDefault()`
+    - `.capture` -添加事件侦听器绑定的元素本身触发时才触发回调。
+    - `.self` -只当事件是从侦听器绑定的元素本身触发时才触发回调。
+    - `.{keyCode | keyAlias}` -只当事件是从特定键触发时才触发回调。
+    - `.native` -监听组件根元素的原生事件。
+    - `.once` -只触发一次回调。
+    - `.left` -（2.2.0）只当点击鼠标左键时触发。
+    - `.right` -（2.2.0）只当点击鼠标右键时触发。
+    - `.middle` -（2.2.0）只当点击鼠标中键时触发。
+    - `.passive` -（2.3.0）以`{ passive: true }`模式添加侦听器
+
+- 用法：
+    绑定事件监听器。事件类型由参数指定。表达式可以是一个方法的名字或一个内联语句，如果没有修饰符也可以省略。
+
+    从`2.4.0` 开始，`v-on`同样支持不带参数绑定一个事件/监听器键值对的对象。注意当使用对象语法时，是不支持任何修饰器的。
+
+    用在普通元素上时，只能监听**原生DOM事件**。用在自定义元素组件上时，也可以监听子组件触发的**自定义事件**。
+
+    在监听原生DOM事件时，方法以事件为唯一的参数。如果使用内联语句，语法可以访问一个`$event`属性：`v-on:click="handle('ok', $event)"`。
+- 示例：
+    ```html
+    <!-- 方法处理器 -->
+    <button v-on:click="doThis"></button>
+
+    <!-- 对象语法（2.4.0+） -->
+    <button v-on="{ mousedown: doThis, mouseup: doThat }"></button>
+
+    <!-- 内联语句 -->
+    <button v-on:click="doThat('hello', $event)"></button>
+
+    <!-- 缩写 -->
+    <button @click="doThis"></button>
+
+    <!-- 停止冒泡 -->
+    <button @click.stop="doThis"></button>
+
+    <!-- 阻止默认行为 -->
+    <button @click.prevent="doThis"></button>
+
+    <!-- 阻止默认行为，没有表达式 -->
+    <form @submit.prevent></form>
+
+    <!-- 串联修饰符 -->
+    <button @click.stop.prevent="doThis"></button>
+
+    <!-- 键修饰符，键别名 -->
+    <input @keyup.enter="onEnter" />
+
+    <!-- 键修饰符，键代码 -->
+    <input @keyup.13="onEnter">
+
+    <!-- 点击回调只会触发一次 -->
+    <button v-on:click.once="doThis"></button>
+    ```
+    在子组件上监听自定义事件（当子组件触发“my-event”时将调用事件处理器）：
+    ```html
+    <my-component @my-event="handleThis"></my-component>
+
+    <!-- 内联语句 -->
+    <my-component @my-event="handleThis"></my-component>
+
+    <!-- 组件中的原生事件 -->
+    <my-component @click.native="onClick"></my-component>
+    ```
+
+- 参考：
+    - [事件处理器](https://cn.vuejs.org/v2/guide/events.html)
+    - [组件-自定义事件](https://cn.vuejs.org/v2/guide/components.html#自定义事件)
+
+
+---
+### v-bind
+- 缩写：`:`
+- 预期：`any(with argument) | Object(without argument)`
+- 参数：`attrOrProp(optional)`
+- 修饰符：
+    - `.prop` -被用于绑定DOM属性（wiat's the difference?）
+    - `.camel` -（2.1.0+）将kebab-case特性名转换为camelCase.(从2.1.0开始支持)
+    - `.sync`（2.3.0+）语法糖，会扩展成一个更新父组件绑定值的`v-on`侦听器。
+- 用法：
+    动态地绑定一个或多个特性，或一个组件prop到表达式
+    。
+    在绑定`class`或`style`特性时，支持其他类型的值，如数组或对象。可以通过下面的教程链接查看详情。
+
+    在绑定prop时，prop必须在子组件中声明。可以用修饰符指定不同的绑定类型。
+
+    没有参数时，可以绑定到一个包含键值对的对象。注意此时`class`和`style`绑定不支持数组和对象。
+
+- 示例：
+    ```html
+    <!-- 绑定一个属性 -->
+    <img v-bind:src="imageSrc">
+
+    <!-- 缩写 -->
+    <img :src="imageSrc">
+
+    <!-- 内联字符串拼接 -->
+    <img :src="'/path/to/images/' + fileName">
+
+    <!-- class绑定 -->
+    <div :class="{red: isRed}"></div>
+    <div :class="[classA, classB]"></div>
+    <div :class="[classA, {classB: isB, classC: isC}]"></div>
+
+    <!-- style绑定 -->
+    <div :style="{ fontSize: size + 'px' }"></div>
+    <div :style="[styleObjectA, styleObjectB]"></div>
+
+    <!-- 绑定一个有属性的对象 -->
+    <div v-bind="{id: someProp, 'other-attr': otherProp}"></div>
+
+    <!-- 通过prop修饰符绑定DOM属性 -->
+    <div v-bind:text-content.prop="text"></div>
+
+    <!-- prop绑定。"prop"必须在my-component中声明 -->
+    <my-component :prop="someThing"><my-component>
+
+    <!-- 通过$prop将父组件的props一起传给子组件 -->
+    <child-component v-bind="$props"></child-component>
+
+    <!-- Xlink -->
+    <svg><a :xlink:special="foo"></a></svg>
+    ```
+    `.camel`修饰符允许在使用DOM模版时将`v-bind`属性名称驼峰化，例如SVG的`viewBox`属性：
+    ```html
+    <svg :view-box.camel="viewBox"></svg>
+    ```
+    在使用字符串模版或通过`vue-loader/vueify`编译时，无需使用`.camel`。
+
+- 参考：
+    - [Class与Style绑定](https://cn.vuejs.org/v2/guide/class-and-style.html)
+    - [组件-Props](https://cn.vuejs.org/v2/guide/components.html#Props)
+    - [组件-`.sync`修饰符](https://cn.vuejs.org/v2/guide/components.html#sync-修饰符)
+
+---
+### v-model
+- 预期：随表单控件类型不同而不同。
+- 限制：
+    - `<input>`
+    - `<select>`
+    - `<textarea>`
+    - components
+- 修饰符：
+    - `.lazy` -取代`input`监听`change`事件
+    - `.number` -输入字符串转为数字
+    - `.trim`-输入首尾空格过滤
+- 用法：
+    在表单控件或者组件上创建双向绑定。细节请看下面的教程链接。
+- 参考：
+    - [表单控件绑定](https://cn.vuejs.org/v2/guide/forms.html)
+    - [组件-在输入组件上使用自定义事件](https://cn.vuejs.org/v2/guide/forms.html)
+
+
+---
+### v-pre
+- 不需要表达式
+- 用法：
+    跳过这个元素和它的子元素的编译过程。可以用来显示原始Mstache标签。跳过大量没有指令的节点会加快编译。
+- 示例：
+    ```
+    <span v-pre>{{ this will not be compiled }}</span>
+    ```
+
+---
+### v-cloak
+- 不需要表达式
+- 用法：
+    这个指令保持在元素上直到关联实例结束的编译。和css规则如`[v-cloak] {display: none}`一起用时，这个指令可以隐藏未编译的Mustache标签直到实例准备完毕。
+- 示例：
+    ```css
+    [v-cloak]{
+        display: none
+    }
+    ```
+    ```html
+    <div v-cloak>
+        {{message}}
+    </div>
+    ```
+
+---
+### v-once
+- 不需要表达式
+- 详细：
+    只渲染元素和组件一次。随后的重新渲染，元素/组件及其所有的子节点将视为静态内容并跳过。这可以用于优化更新性能。
+    ```html
+    <!-- 单个元素 -->
+    <span v-once>This will never change: {{msg}}</span>
+    <!-- 有子元素 -->
+    <div v-once>
+        <h1>comment</h1>
+        <p>{{msg}}</p>
+    </div>
+    <!-- 组件 -->
+    <my-component v-once :comment="msg"></my-component>
+    <!-- `v-for`指令 -->
+    <ul>
+        <li v-for="i in list" v-once>{{i}}</li>
+    </ul>
+    ```
+- 参考：
+    - [数据绑定语法-插值](https://cn.vuejs.org/v2/guide/syntax.html#插值)
+    - [组件-使用-`v-once`实现轻量的静态组件](https://cn.vuejs.org/v2/guide/components.html#使用-v-once-的低级静态组件-Cheap-Static-Component)
+
+
+---
+
+ ## 特殊特性
+ ### key
+ - 预期：`number | string`
+    `key`的特殊属性主要用在Vue的虚拟DOM算法，在新旧nodes对比时辨识VNodes。如果不使用key,Vue会使用一种最大限度减少动态元素并且尽可能的尝试修复/再利用相同类型元素的算法。使用key，它会基于key的变化重新排列元素顺序，并且会移除key不存在的元素。
+
+    有相同父元素的子元素必须有**独特的key**。重复的key会造成渲染的错误。
+
+    最常见的用例是结合`v-for`:
+    ```html
+    <ul>
+        <li v-for="item in items" :key="item.id">...</li>
+    </ul>
+    ```
+    它也可以用于强制替换元素/组件而不是重复使用它。当你遇到如下场景时它可能会很有用：
+    - 完整地触发组件的生命周期钩子
+    - 触发过度
+      例如：
+    ```html
+    <transition>
+        <span :key="text">{{ text }}</span>
+    </transition>
+    ```
+    当`text`发生改变时，`<span>`会随时被更新，因此会触发过渡。
+
+
+---
+### ref
+- 预期：`string`
+    `ref`被用来给元素或子组件注册引用信息。引用信息将会注册在父组件的`$refs`对象上。如果在普通的DOM元素上使用，引用指向的就是DOM元素；如果用在子组件上，引用就指向组件实例：
+    ```html
+    <!-- vm.$refs.p will be the DOM node -->
+    <p ref="p">Hello</p>
+
+    <!-- vm.$refs.child will be the child comp instance -->
+    <child-com ref="child"></child-comp>
+    ```
+    当`v-for`用于元素或组件的时候，引用信息将是包含DOM节点或组件实例的数组。
+
+    关于ref注册时间的重要说明：因为ref本身是作为渲染结果被创建的，在初始渲染的时候你不能访问它们-它们还不存在！`$refs`也不是响应式的，因此你不应该试图用它在模版中做数据绑定。
+
+- 参考：[子组件Refs](https://cn.vuejs.org/v2/guide/components.html#子组件索引)
+
+
+---
+### slot
+- 预期：`string`
+    用于标记往哪个slot中插入子组件内容。
+    详细用法，请参考下面指南部分的链接。
+- 参考：[具名Slots](https://cn.vuejs.org/v2/guide/components.html#具名-Slot)
+
+---
+### is
+- 预期：`string`
+    用于[动态组件](https://cn.vuejs.org/v2/guide/components.html#动态组件)且基于[DOM内模版到限制](https://cn.vuejs.org/v2/guide/components.html#DOM 模版解析说明)来工作。
+    示例：
+    ```html
+    <!-- component changes when currentView changes -->
+    <component v-bind:is="currentView"></component>
+
+    <!-- necessary because `<my-row>` would be invalid inside -->
+    <!-- a `<table>` element and so would be hoisted out -->
+    <table>
+        <tr is="my-row"></tr>
+    </table>
+    ```
+    更多的使用细节，请移步至下面的链接。
+- See also:
+    - [动态组件](https://cn.vuejs.org/v2/guide/components.html#动态组件)
+    - [DOM模版解析说明](https://cn.vuejs.org/v2/guide/components.html#DOM 模版解析说明)
+
+
+---
+
+## 内置的组件
+### component
+- Props:
+    - `is`-string|ComponentDefinition|ComponentConstructor
+    - `inline-template` -boolean
+- 用法：
+    渲染一个“元组件”为动态组件。依`is`的值，来决定哪个组件被渲染。
+    ```html
+    <!-- 动态组件由vm实例的属性值`componentId`控制 -->
+    <component :is="componentId"></component>
+
+    <!-- 也能够渲染注册过的组件或prop传入的组件 -->
+    <component :is="$options.components.child"></component>
+    ```
+- 参考：[动态组件](https://cn.vuejs.org/v2/guide/components.html#DOM 模版解析说明)
+
+
+---
+### transition
+- Props:
+    - `name` -string,用于自动生成CSS过渡类名。例如：`name:'fade'`将自动拓展为`.fade-enter`，`.fade-enter-active`等。默认类名为`"v"`
+    - `appear` -boolean，是否在初始渲染时使用过渡。默认为`false`。
+    - `css` -boolean，是否使用css过渡类。默认为`true`。如果设置为`false`，将只通过组件事件触发注册的Javascript钩子。
+    - `type` -string，指定过渡事件类型，侦听过渡何时结束。有效值为`"transition"`和`"animation"`。默认Vue.js将自动检测出持续时间长的为过渡事件类型。
+    - `mode` -string，控制离开/进入的过渡时间序列。有效的模式有`"out-in"`和`"in-out"`；默认同时生效。
+    - `enter-class` -string
+    - `leave-class` -string
+    - `appear-class` -string
+    - `enter-to-class` -string
+    - `leave-to-class` -string
+    - `appear-to-class` -string
+    - `enter-active-class` -string
+    - `leave-active-class` -string
+    - `appear-active-class` -string
+- 事件：
+    - `before-enter`
+    - `before-leave`
+    - `before-appear`
+    - `enter`
+    - `leave`
+    - `appear`
+    - `after-enter`
+    - `after-leave`
+    - `after-appear`
+    - `enter-cancelled`
+    - `leave-cancelled`(`v-show`only)
+    - `appear-cancelled`
+- 用法：
+    `<transition>`元素作为单个元素/组件的过渡效果。`<transition>`不会渲染额外的DOM元素，也不会出现在检测过的组件层级中。它只是将内容包裹在其中，简单的运用过渡行为。
+    ```
+    <!-- 简单元素 -->
+    <transition>
+        <div v-if="ok">toggled content</div>
+    </transition>
+
+    <!-- 动态组件 -->
+    <transition name="fade" mode="out-in" appear>
+        <component :is="view"></component>
+    </transition>
+
+    <!-- 事件钩子 -->
+    <div id="transition-demo">
+        <transition @after-enter="transitionComplete">
+            <div v-show="ok">toggled content</div>
+        </transition>
+    </div>
+    ```
+    ```javascript
+    new Vue({
+        ...
+        methods:{
+            transitionComplete: function(el){
+                //传入'el'这个Dom元素作为参数
+            }
+        }
+        ...
+    }).$mount('#transition-demo')
+    ```
+
+- 参考：[过渡：进入，离开和列表](https://cn.vuejs.org/v2/guide/transitions.html)
+
+
+---
+### transition-group
+- Props:
+    - `tag` -string,默认为`span`
+    - `move-class` -覆盖移动过渡期间应用的css类。
+    - 除了`mode`，其他特性和`<transition>`相同
+
+- 事件：
+    - 事件和`<transition>`相同
+
+- 用法：
+    `<trnasition-group>`元素作为多个元素/组件的过渡效果。`<transition-group>`渲染一个真实的DOM元素。默认渲染`<span>`，可以通过`tag`属性配置哪个元素应该被渲染。
+
+    注意，每个`<transition-group>`的子节点必须有**独立的key**，动画才能正常工作
+
+    `<transition-group>`支持通过css transform过渡移动。当一个子节点被更新，从屏幕上的位置发生变化，它将会获取应用CSS移动类（通过`name`属性或配置`move-class`属性自动生成）。如果CSS `transform`属性是“可过渡”属性，当应用移动类时，将会使用`FLIP技术`使元素流畅地到达动画终点。
+
+    ```html
+    <transition-group tag="ul" name="slide">
+      <li v-for="item in items" :key="item.id">
+        {{ item.text }}
+      </li>
+    </transition-group>
+    ```
+
+- 参考：[过渡：进入，离开和列表](https://cn.vuejs.org/v2/guide/transitions.html)
+
+
+
+
+---
+
+keep-alive
+
+- **Props**：
+
+  - `include` - 字符串或正则表达式。只有匹配的组件会被缓存。
+  - `exclude` - 字符串或正则表达式。任何匹配的组件都不会被缓存。
+
+- **用法**：
+
+  `<keep-alive>` 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。和 `<transition>` 相似，`<keep-alive>` 是一个抽象组件：它自身不会渲染一个 DOM 元素，也不会出现在父组件链中。
+
+  当组件在 `<keep-alive>` 内被切换，它的 `activated` 和 `deactivated` 这两个生命周期钩子函数将会被对应执行。
+
+  > 在 2.2.0 及其更高版本中，`activated` 和 `deactivated` 将会在 `<keep-alive>` 树内的所有嵌套组件中触发。
+
+  主要用于保留组件状态或避免重新渲染。
+
+  ```html
+  <!-- 基本 -->
+  <keep-alive>
+    <component :is="view"></component>
+  </keep-alive>
+
+  <!-- 多个条件判断的子组件 -->
+  <keep-alive>
+    <comp-a v-if="a > 1"></comp-a>
+    <comp-b v-else></comp-b>
+  </keep-alive>
+
+  <!-- 和 `<transition>` 一起使用 -->
+  <transition>
+    <keep-alive>
+      <component :is="view"></component>
+    </keep-alive>
+  </transition>
+  ```
+
+  注意，`<keep-alive>` 是用在其一个直属的子组件被开关的情形。如果你在其中有 `v-if` 则不会工作。如果有上述的多个条件性的子元素，`<keep-alive>` 要求同时只有一个子元素被渲染。
+
+- `include` and `exclude`
+
+  > 2.1.0 新增
+
+  `include` 和 `exclude` 属性允许组件有条件地缓存。二者都可以用逗号分隔字符串、正则表达式或一个数组来表示:
+
+  ```html
+  <!-- 逗号分隔字符串 -->
+  <keep-alive include="a,b">
+    <component :is="view"></component>
+  </keep-alive>
+  <!-- 正则表达式 (使用 `v-bind`) -->
+  <keep-alive :include="/a|b/">
+    <component :is="view"></component>
+  </keep-alive>
+  <!-- 数组 (使用 `v-bind`) -->
+  <keep-alive :include="['a', 'b']">
+    <component :is="view"></component>
+  </keep-alive>
+  ```
+
+  匹配首先检查组件自身的 `name` 选项，如果 `name` 选项不可用，则匹配它的局部注册名称（父组件 `components` 选项的键值）。匿名组件不能被匹配。
+
+  >  `<keep-alive>` 不会在函数式组件中正常工作，因为它们没有缓存实例。
+
+- **参考**：[动态组件 - keep-alive](https://cn.vuejs.org/v2/guide/components.html#keep-alive)
+
+
+
+---
+
+### slot
+
+- Props:
+
+  - `name` -string, 用于命名插槽
+
+- Usage:
+
+  `<slot>`元素作为组件模板之中的内容分发插槽。`<slot>`元素自身将被替换。
+
+  详细用法，请参考下面教程的连接。
+
+- 参考：[使用Slot分发内容](https://cn.vuejs.org/v2/guide/components.html#使用Slots分发内容)
+
+
+
+## VNode接口
+
+- 请参考[VNode class declaration](https://github.com/vuejs/vue/blob/dev/src/core/vdom/vnode.js)
+
+
+
+## 服务端渲染
+
+- 请参考[vue-server-render package documentation](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer)
 
 
 
