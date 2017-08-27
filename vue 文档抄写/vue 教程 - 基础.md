@@ -252,6 +252,197 @@ $ bower install vue
 
 
 
+---
+
+
+
+## 介绍
+
+### Vue.js 是什么
+
+Vue.js时一套构建用户界面的渐进式框架。与其他重量级框架不同的是，Vue采用自底向上增量开发的塞设计。Vue的核心库只关注视图层，它不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与`单文件组件`和`Vue生态系统支持的库`结合使用时，Vue也完全能够为复杂的单页面应用程序提供驱动。
+
+
+
+如果你是有经验的前端开发者，想知道Vue.js与其它库/框架的区别，查看[对比其它框架](https://cn.vuejs.org/v2/guide/comparison.html)
+
+
+
+### 起步
+
+> 官方指南假设你已有HTML、CSS 、和Javascript中级前端知识。如果你刚开始学习前端开发，将框架作为你的第一步可能不是最好的主意--掌握好基础知识再来！之前有其它的框架的使用经验对于学习Vue.js是有帮助的，但这不是必需的。
+
+尝试Vue.js最简单的方法是使用[JSFiddle Hello World](https://jsfiddle.net/chrisvfritz/50wL7mdz/)。你可以在浏览器新标签页中打开它，跟着例子学习一些基础的用法。或者你可以创建一个`.html`文件，然后通过如下方式引入Vue：
+
+```html
+<script src="https://unpkg.com/vue"></script>	
+```
+
+你可以查看[安装教程](https://cn.vuejs.org/guide/installation.html)来了解其他安装Vue的选项。请注意我们不推荐新手直接使用`vue-cli`，尤其是对Node.js构建工具不够了解的同学。
+
+
+
+### 声明式渲染
+
+vue.js的核心是一个允许采用简洁的模板语法来声明式的将数据渲染进DOM：
+
+```html
+<div id="app">
+  {{ message }}
+</div>
+```
+
+```js
+var app = new Vue({
+  el: '#app',
+  data:{
+    message: 'Hello Vue!'
+  }
+})
+```
+
+我们已经生成了我们的第一个Vue应用！看起来这跟单单渲染一个字符串模板非常类似，但是Vue在背后做了大量工作。现在数据和DOM已经被绑定在一起，所有的元素都是**响应式的。** 我们该如何知道呢？ 打开你的浏览器的控制台（就在这个页面打开），并修改`app.message`，你将看到上例相应地更新。
+
+除了文本插值，我们还可以采用这样的方式绑定DOM元素属性：
+
+```html
+<div id="app-2">
+  <span v-bind:title="message">
+    鼠标悬停几秒钟查看此处动态绑定的信息！
+  </span>
+</div>
+```
+
+```js
+var app2 = new Vue({
+  el: '#app-2',
+  data:{
+    message: '页面加载于' + new Data().toLocaleString()
+  }
+})
+```
+
+
+
+这里我们遇到点新东西。你看到的`v-bind`属性被称为**指令**。指令带有前缀`v-`，以表示它们是Vue提供的特殊属性。可能你已经猜到了，它们会在渲染的DOM上应用特殊的响应式行为。简而言之，这里该指令的作用是：“将这个元素节点的`title`属性和Vue实例的`message`属性保持一致”。
+
+再次打开浏览器的Javascript控制台输入`app2.message ='新消息'`，就会再一次看到这个绑定了`title`属性的HTML已经进行了更新。
+
+
+
+### 条件与循环
+
+控制切换一个元素的显示也相当于简单：
+
+```html
+<div id="app-3">
+  <p v-if="seen">现在你看到我了</p>
+</div>
+```
+
+```js
+var app3 = new Vue({
+  el:'#app-3',
+  data:{
+    seen: true
+  }
+})
+```
+
+ 继续在控制台设置`app3.seen = false`，你会发现“现在你看到我了” 消失了。
+
+这个例子演示了我们不仅可以绑定DOM文本到数据，也可以绑定DOM结构到数据。而且，Vue也提供一个强大的过渡效果系统，可以在Vue插入/更新/删除元素时自动应用[过渡效果](https://cn.vuejs.org/v2/guide/transitions.html)。
+
+还有其它很多指令，每个指令都有特殊的功能。例如，`v-for`指令可以绑定数组的数据来渲染一个项目列表：
+
+```html
+<div id="app-4">
+	<ol>
+      	<li v-for="todo in todos">
+          	{{todo.text}}
+        </li>
+  	</ol>
+</div>
+```
+
+```js
+var app4 = new Vue({
+  el: '#app-4',
+  data:{
+    todos: [
+      {text: '学习Javascript'},
+      {text: '学习Vue'},
+      {text: '整个项目'}
+    ]
+  }
+})
+```
+
+在控制台里，输入`app4.todos.push({text: '新项目'})`，你会发现列表中添加一个新项。
+
+
+
+### 处理用户输入
+
+为了让用户和你的应用进行互动，我们可以用`v-on`指令绑定一个事件监听器，通过它调用我们Vue实例中定义的方法：
+
+```html
+<div id="app-5">
+	<p>{{message}}</p>
+  	<button v-on:click="reverseMessage">逆转消息</button>
+</div>
+```
+
+```js
+var app5 = new Vue({
+  el:'#app-5',
+  data:{
+    messag:'Hello Vue.js!'
+  },
+  methods:{
+    reverMessage: function(){
+      this.message = this.message.split('').reverse().join('')
+    }
+  }
+})
+```
+
+注意在`reverseMessage`方法中，我们更新了应用的状态，但没有触碰DOM--所有的DOM操作都由Vue来处理，你编写的代码不需要关注底层逻辑。
+
+Vue还提供了`v-model`指令，它能轻松实现表单输入和应用状态之间的双向绑定。
+
+```html
+<div id="app-6">
+  <p>{{ message }}</p>
+  <input v-model="message">
+</div>
+```
+
+```js
+var app6 = new Vue({
+  el: '#app-6',
+  data: {
+    message: 'Hello Vue'
+  }
+})
+```
+
+
+
+### 组件化应用构建
+
+组件系统是Vue的另一个重要概念，因为它是一种抽象，允许
+
+
+
+
+
+
+
+
+
+
+
 
 
 
