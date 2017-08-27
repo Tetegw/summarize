@@ -431,7 +431,87 @@ var app6 = new Vue({
 
 ### 组件化应用构建
 
-组件系统是Vue的另一个重要概念，因为它是一种抽象，允许
+组件系统是Vue的另一个重要概念，因为它是一种抽象，允许我们使用小型、独立和通常可复用的组件构建大型应用。仔细想想，几乎任意类型的应用界面都可以抽象为一个组件树。
+
+在vue里，一个组件本质上是一个拥有预定义选项的一个Vue实例，在Vue中注册组件很简单：
+
+```js
+Vue.component('todo-item', {
+  template: '<li>这是个待办项</li>'
+})
+```
+
+现在你可以用它构建另一个组件模板：
+
+```html
+<ol>
+  <todo-item></todo-item>
+</ol>
+```
+
+但是这样会为每个代办项渲染同样的文本，这看起来并不炫酷，我们应该能将数据从父作用域传到子组件。让我们来修改一下组件的定义，使之能够接受一个属性：
+
+```javascript
+Vue.component('todo-item', {
+  props: ['todo'],
+  template:'<li>{{ todo.text }}</li>'
+})
+```
+
+现在，我们可以使用`v-bind`指令将todo传到每一个重复的组件中：
+
+```html
+<div id="app-7">
+  <ol>
+    <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id">
+    </todo-item>
+  </ol>
+</div>
+```
+
+```js
+Vue.component('todo-item', {
+  props: ['todo'],
+  template: '<li>{{ todo.text }}</li>'
+})
+var app7 = new Vue({
+  el: '#app-7',
+  data: {
+    groceryList: [
+      { id: 0, text: '蔬菜' },
+      { id: 1, text: '奶酪' },
+      { id: 2, text: '随便其他什么人吃的东西' }
+    ]
+  }
+})
+```
+
+这只是一个假设的例子，但是我们已经设法将应用分割成了两个更小的单元，子单元通过`props` 接口实现了与父单元很好的解耦。我们现在可以进一步为我们的`todo-item`  组件实现更复杂的模板和逻辑的改进，而不是影响到父单元。
+
+在一个大型应用中，有必要将整个应用程序划分为组件，以使开发可管理。在[后续教程](https://cn.vuejs.org/v2/guide/components.html)中我们将详述组件，不过这里有一个（假想的）使用了组件的应用模板是什么样的例子：
+
+```html
+<div id="app">
+  <app-nav></app-nav>
+  <app-view>
+    <app-sidebar></app-sidebar>
+    <app-content></app-content>
+  </app-view>
+</div>
+```
+
+### 与自定义元素的关系
+
+你可能已经注意到Vue组件非常类似于**自定义元素**--它是[Web - 组件规范](https://www.w3.org/wiki/WebComponents/)的一部分，这是因为Vue的组件语法部分参考了该规范。例如Vue组件实现了[Slot API](https://github.com/w3c/webcomponents/blob/gh-pages/proposals/Slots-Proposal.md)与`is`特性。但是，还是有几个关键差别：
+
+1. web组件规范仍然处于草案阶段，并且尚无浏览器原生实现，相比之下，Vue组件不需要任何补丁，并且在所有支持的浏览器（IE9及更高版本）之下表现一致。必要时，Vue组件也可以包装于原生自定义元素之内。
+2. Vue组件提供了纯自定义元素所不具备的一些重要功能，最突出的是跨组件数据流，自定义事件通讯以及构建工具集成。
+
+
+
+### 准备好了吗？
+
+我们刚才简单介绍了 Vue 核心最基本的功能——本教程的其余部分将涵盖这些功能以及其他高级功能更详细的细节，所以请务必读完整个教程！
 
 
 
