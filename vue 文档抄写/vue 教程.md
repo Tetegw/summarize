@@ -14,7 +14,7 @@ Vue.js 不支持IE8 及其以下版本，因为Vue.js使用了IE8不能模拟的
 
 
 
-### 直接<script>引用
+### 直接`<script>`引用
 
 直接下载并用`<script>`标签引入，`Vue`会被注册为一个全局变量。重要提示：在开发时请用开发版本，遇见常见错误它会给出友好的警告。
 
@@ -513,39 +513,327 @@ var app7 = new Vue({
 
 我们刚才简单介绍了 Vue 核心最基本的功能——本教程的其余部分将涵盖这些功能以及其他高级功能更详细的细节，所以请务必读完整个教程！
 
-
-
+---
 ## Vue实例
-
 ### 构造器
+每个Vue.js应用都是通过构造函数`Vue`创建一个Vue的根实例启动的：
+```js
+var vm = new Vue({
+  //
+})
+```
+虽然没有完全遵循[MVVM模式](https://en.wikipedia.org/wiki/Model_View_ViewModel),Vue的设计无疑受到了它的启发。因此在文档中经常会使用`vm`（ViewModel的简称）这个变量名表示Vue实例
 
-### 属性和方法
+在实例化Vue时，需要传入一个**选项对象**，它可以包含数据、模版、挂载元素、方法、生命周期钩子等选项。全部的选项可以在[API文档](https://cn.vuejs.org/v2/api/#选项-数据)中查看。
+
+```js
+var MyComponent = Vue.extend({
+  // 扩展选项
+})
+//所有的`MyComponent`实例都将以预定义的扩展选项被创建
+var myComponentInstance = new MyComponent()
+```
+尽管可以命名式地创建扩展实例，不过在多数情况下建议将组件构造器注册为一个自定义元素，然后声明式地用在模版中。我们将在后面详细说明[组件系统](https://cn.vuejs.org/guide/components.html)。现在你只需要知道所有的Vue.js组件其实都是被扩展的Vue实例。
+
+### 属性与方法
+每个Vue实例都会代理其`data`对象里所有的属性：
+```js
+var data = {a : 1}
+var vm = new Vue({
+  data: data
+})
+vm.a === data.a //true
+
+//设置属性也会影响到原始数据
+vm.a = 2
+data.a  // --> 2
+```
+注意只有这些被代理的属性是**响应的**，也就是说值的任何改变都会触发视图的重新渲染。如果在实例创建之后添加新的属性到实例上，它不会触发视图更新。我们将在后面详细讨论响应系统。
+
+除了data属性，Vue实例暴露了一些有用的实例属性与方法。这些属性与方法都有前缀`$`，以便与代理的data属性区分。例如：
+```js
+var data = { a: 1 }
+var vm = new Vue({
+  el: '#example',
+  data: data
+})
+
+vm.$data === data  //--> true
+vm.$el === document.getElementById('example') //--> true
+
+//$watch是一个实例方法
+vm.$watch('a', function(newVal, oldVal){
+  // 这个回调将在`vm.a`改变后调用
+})
+
+```
+
+> 注意，不要在实例属性或者回调函数中（如`vm.$watch('a', newVal => this.myMethod())`） 使用[箭头函数](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions)。因为箭头函数绑定父级上下文，所以`this`不会像预想的一样是 Vue实例，而且`this.myMethod`是未被定义的。
+
+实例属性和方法的完整列表中查阅[API参考](https://cn.vuejs.org/v2/api/#实例属性)
 
 ### 实例生命周期
+每个Vue实例在被创建之前都要经过一系列的初始化过程。例如，实例需要配置数据观测（data observer）、编译模版、挂载实例到DOM，然后在数据变化时更新DOM。这在和过程中，实例也会调用一些**生命周期钩子**，这就给我们提供了执行自定义逻辑的机会。例如，`created`这个钩子在实例被创建之后被调用：
+```js
+var vm = new Vue({
+  data: {
+    a: 1
+  },
+  created: function(){
+    console.log('a is:' + this.a)
+  }
+})
+// -> 'a is :1'
+```
+也有一些其它的钩子，在实例生命周期的不同阶段调用，如`mounted`、`updated`、`destroyed`。钩子的`this`指向调用它的Vue实例。一些用户可能会问Vue.js是否有“控制器”的概念？答案是：没有。组件的定义逻辑可以分布在这些钩子中。
 
 ### 生命周期图示
+![](./lifecycle.png)
+
+---
+## 模版语法
+Vue.js使用了基于HTML的模版语法，允许开发者声明式地将DOM绑定至底层Vue实例的数据。所有Vue.js的模版都是合法的HTML，所以能被遵循规范的浏览器和HTML解析器解析。
+
+在底层的实现上，Vue将模版编译成虚拟DOM渲染函数。结合响应系统，在应用状态改变时Vue能够智能的计算出重新渲染组件的最小代价并应用到DOM操作上。
+
+如果你熟悉虚拟DOM并且偏爱Javascript的原始力量，你可以不用模版，[直接写渲染(render)函数](https://cn.vuejs.org/v2/guide/render-function.html)，使用可选的JSX语法。
 
 
+### 插值
+#### 文本
+数据绑定最常见的形式就是使用“Mustache”语法（双大括号）的文本插值：
+```html
+<span>Message: {{msg}}</span>
+```
+Mustache标签将会被代替为对应数据对象上`msg`属性的值。无论何时，绑定的数据对象上`msg`属性发生了变化，插值处的内容都会更新。
 
+通过使用[v-once指令](https://cn.vuejs.org/v2/api/#v-once),你也能执行一次性地插值，当数据改变时，插值处的内容不会更新。但请留心这会影响到该节点上所有的数据绑定：
+```html
+<span v-once>这个将不会改变：{{msg}} </span>
+```
 
+#### 纯HTML
+双大括号会将数据解释为纯文本，而非HTML。为了输出真正的HTML，你需要使用`v-html`指令：
+```html
+<div v-html="rawHtml"></div>
+```
+这个`div`的内容将会被替换成为属性值`rawHtml`，直接作为HTML--会忽略解析属性值中的数据绑定。注意，你不能使用`v-html`来复合局部模版，因为Vue不是基于字符串的模版引擎。反之，对于用户界面（UI），组件更适合作为可重用和可组合的基础单位。
 
+> 你的站点上动态渲染的任意HTML可能会非常危险，因为它很容易导致xss攻击。请只对可信内容使用HTML插值，绝不要对用户提供的内容插值。
 
+#### 特性
+mustache语法不能作为在HTML特性上，遇到这种情况应该使用[v-bind指令](https://cn.vuejs.org/v2/api/#v-bind)
+```html
+<div v-bind:id="dynamicID"></div>
+```
+这同样适用于布尔类特性，如果求值结果是false的值，则该特性将会被删除：
+```html
+<button v-bind:disabled="isButtonDisabled">Button</button>
+```
 
+#### 使用Javascript表达式
+迄今为止，在我们的模版中，我们一直都只绑定简单的属性键值。但实际上，对于所有的数据绑定，Vue.js都提供了完成的Javascript表达表达式支持。
+```html
+{{number + 1}}
+{{ok? 'YES': 'NO'}}
+{{message.split('').reverse().join('')}}
+<div v-bind:id="'list-' + id""></div>
+```
+这些表达式会在所属Vue实例的数据作用域下作为Javascript被解析。有个限制就是，每个绑定都只能包含单个表达式，所有下面的例子**都不会**生效。
+```html
+<!--这是语句不是表达式-->
+{{ var a =1 }}
+<!-- 流控制也不会生效， 请使用三元表达式 -->
+{{if (ok) { return message }}}
+```
 
+> 模版表达式都被放在沙盒中，只能访问全局变量的一个白名单，如`Math`和`Date`。你不应该在模版表达式中试图访问用户定义的全局变量。
 
+### 指令
+指令（Directives）是带有`v-`前缀的特殊属性。指令属性的值预期是**单个javascript**表达式（`v-for`是例外情况，稍后我们再讨论）。指令的职责是，当表达式的值改变时，将其产生的连带影响，响应式地作用于DOM。回顾我们在介绍中看到的例子：
+```html
+<p v-if="seen">现在你看到我了</p>
+```
+这里，`v-if`指令将根据表达式`seen`的值的真假来插入/移除`<p>`元素。
 
+#### 参数
+一些指令能够接收一个“参数”，在指令名称之后以冒号表示。例如，`v-bind`指令可以用于响应式地更新HTML属性：
+```html
+<a v-bind:href="url"></a>
+```
+在这里`href`是参数，告知`v-bind`指令将该元素的`href`属性与表达式`url`的值绑定。另一个例子是`v-on`指令，它用于监听DOM事件：
+```html
+<a v-on:click="doSomething">
+```
+在这里参数是监听的事件名，我们也会更详细地讨论事件处理。
 
+#### 修饰符
+修饰符（Modifiers）是以半角句号`.`指明的特殊后缀，用于指出一个指令应该以特殊方式绑定。例如，`.prevent`修饰符告诉`v-on`指令对于触发的事件调用`event.preventDefault()`：
+```html
+<form v-on:submit.prevent="onSubmit"></form>
+```
+之后当我更深入地了解`v-on`与`v-model`时，会揽到更多修饰符的使用。
 
+### 过滤器
+Vue.js允许你自定义过滤器，可被用作一个常见的文本格式化。过滤器可以用在两个地方：**mustache插值和`v-bind`表达式**。过滤器应该被添加在Javascript表达式的尾部，由“管道”符指示：
+```html
+{{message | capitalize}}
 
+<div v-bind:id="rawId | formatId"></div>
+```
 
+> 由于最初计划过滤器的使用场景，是用于文本转换，所以Vue2.x过滤器只能用于双花括号插值（mustache interpolation）和`v-bind` 表达式中（后者在2.1.0+版本支持）。对于复杂的数据的转换，应该使用[计算属性](https://cn.vuejs.org/v2/guide/computed.html)
 
+过滤器函数总接受表达式的值（之前的操作链的结果）作为第一个参数。在这个例子中，`capitalize`过滤器函数将会收到`message`的值作为第一个参数。
+```js
+new Vue({
+  filters: {
+    capitalize: function(value){
+      if(!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
+  }
+})
+```
+过滤器可以串联：
+```js
+{{message | filterA | filterB}}
+```
+在这个例子中，`filterA`被定义为接受单个参数的过滤器函数，表达式`message`的值将作为参数传入到函数中，然后继续调用同样被定义为接收单个参数的过滤器函数`filterB`，将`filterA`的结果传递到`filterB`中。
 
+过滤器是Javascript函数，因此可以接受参数：
+```js
+{{message | filterA('arg1', arg2)}}
+这里，`filterA`被定于为接受三个参数的过滤器函数。其中`message`的值作为第一个参数，普通字符串`arg1`作为第二个参数，表达式`agr2`取值后的值作为第三个参数。
+```
 
+### 缩写
+`v-`前缀作为一种视觉提示，用来识别模版中Vue特定的特性。当你在使用Vue.js为现有标签添加动态行为(dynamic behavior)时，`v-`前缀很有帮助，然而，对于一些频繁用到的指令来说，就会感到使用繁琐。同时，在构建由Vue.js管理所有模块的`单页面应用程序（SPA- single page application）`时，`v-`前缀也变得没那么重要了。因此，Vue.js为`v-bind`和`v-on`这两个最常用的指令，提供了特定简写：
 
+#### v-bind缩写
+```html
+<!-- 完整语法 -->
+<a v-bind:href="url"></a>
+<!-- 缩写 -->
+<a : href="url"></a>
+```
 
+#### v-on缩写
 
+## 计算属性
+### 计算属性
+#### 基础例子
+#### 计算属性vs Methods
+#### 计算属性vs Watched属性
+#### 计算setter
+### 观察Watchers
 
+## Class与Style绑定
+### 绑定HTML Class
+#### 对象语法
+#### 数组语法
+#### 用在组件上
+### 绑定内联样式
+#### 对象语法
+#### 数组语法
+#### 自动添加前缀
+#### 多重值
 
+## 条件渲染
+### v-if
+#### 在<template>中配合v-if条件渲染一整组
+#### v-else
+#### v-else-if
+#### 用key管理可复用的元素
+### v-show
+### v-show vs v-if
+### v-if 与 v-for一起使用
+
+##列表渲染
+### v-for 
+#### 基础用法
+#### Template v-for
+#### 对象迭代v-for
+#### 整数迭代v-for
+#### 组件和v-for
+#### v-for with v-if
+### key
+### 数组更新检测
+#### 变异方式
+#### 重塑数组
+#### 注意事项
+### 显示过滤/排序结果
+
+## 事件处理器
+### 监听事件
+### 方法事件处理器
+### 内联处理器方法
+### 事件修饰符
+### 键值修饰符
+### 修饰键
+#### 滑鼠按键修饰符
+### 为什么在HTML中监听事件？
+
+## 表单控件绑定
+### 基础用法
+#### 文本
+#### 多行文本
+#### 复选框
+#### 单选按钮
+#### 选择列表
+### 绑定value
+#### 复选框
+#### 单选按钮
+#### 选择列表设置
+### 修饰符
+#### .lazy
+#### .number
+#### trim
+### v-model与组件
+
+## 组件
+### 什么是组件？
+### 使用组件
+#### 注册
+#### 局部注册
+#### DOM模版解析说明
+#### data必须是函数
+#### 构成组件
+### Prop
+#### 使用Prop传递数据
+#### camelCase vs. kebab-case
+#### 动态Prop
+#### 字面量语法vs动态语法
+#### 单向数据流
+#### Prop验证
+### 非Prop属性
+#### 替换/覆盖现有的特性
+### 自定义事件
+#### 使用v-on绑定自定义事件
+#### 给组件绑定原生事件
+#### .sync修饰符
+#### 使用自定义事件的表单输入组件
+#### 定制组件的v-model
+#### 非父子组件通信
+### 使用Slot分发内容
+#### 编译作用域
+#### 单个slot
+#### 具名slot
+#### 作用域插槽
+### 动态组件
+#### keep-alive
+### 杂项
+#### 编写可复用组件
+#### 子组件索引
+#### 异步组件
+#### 高级异步组件
+#### 组件命名约定
+#### 递归组件
+#### 组件间的循环引用
+#### 内联模版
+#### X-Templates
+#### 对低开销的静态组件使用v-once
 
 
 
