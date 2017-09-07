@@ -721,9 +721,78 @@ new Vue({
 
 #### v-on缩写
 
+```html
+<!-- 完整语法 -->
+<a v-on:click="doSomething"></a>
+
+<!-- 缩写 -->
+<a @click="doSomething"></a>
+```
+
+它们看起来可能与普通的HTML略有不同，但是`:`与`@`对于特性名来说都是合法字符在所有支持Vue.js的浏览器都能被正确地解析。而且，它们不会出现在最终渲染的标记中。缩写语法是完全可选的，但随着你更深入地了解它们的作用，你会庆幸拥有它们。
+
+
+
 ## 计算属性
 ### 计算属性
+
+模板内的表达式是非常便利的，但是它们实际上只用于简单的运算。在模板中放入太多的逻辑会让模板过重且难以维护。例如：
+
+```html
+<div id="example">
+	{{ message.split('').reverse().join('') }}
+</div>
+```
+
+在这个地方，模板不再简单和清晰。你必须看一段时间才能意识到，这里是想要显示变量`message`的翻转字符串。当你想要在模板中多次引用此处的翻转字符串时，就会更加难以处理。
+
+这就是对于任何复杂逻辑，你都应当使用**计算属性**的原因。
+
 #### 基础例子
+
+```html
+<div id="example">
+  <p>Original message: "{{ message }}"</p>
+  <p>Computed reversed message: "{{ reversedMessage }}"</p>
+</div>
+```
+
+```js
+var vm = new Vue({
+    el: '#example',
+  	data:{
+        message: 'Hello'
+    },
+  	computed:{
+    	//a computed getter
+      reversedMessage: function(){
+          //`this` point to the vm instance
+          return this message.split('').reverse().join('')
+      }
+  	}
+})
+```
+
+结果：
+
+Original message:  "Hello"
+
+Computed reversed message: "olleH"
+
+这里我们声明了一个计算属性`reversedMessage`。我们提供的函数将用作属性`vm.reverseMessage`的getter函数：
+
+```js
+console.log(vm.reversedMessage)
+vm.message = 'Goodbye'
+console.log(vm.reversedMessage)
+```
+
+你可以打开浏览器
+
+
+
+
+
 #### 计算属性vs Methods
 #### 计算属性vs Watched属性
 #### 计算setter
