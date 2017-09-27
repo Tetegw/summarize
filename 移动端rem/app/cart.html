@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>购物车</title>
+    <link rel="stylesheet" href="../dist/css/cart.css">
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body >
+	<!-- 头部  -->
+    <header class="cart-header">
+        <div class="header-left">
+            <a class="back" href="index.html"></a>
+        </div>
+        <div class="header-right">
+            <a class="menu" href="###"></a>
+        </div>
+        <div class="header-center">购物车</div>
+    </header>
+    <div class="wrapperall">
+    <!-- login登录 -->
+    <section class="cart-login">
+		<div class="info">您还没有完成登录哦</div>
+		<button>登录</button>
+    </section>
+	<!-- 内容 -->
+	<section class="cart-content">
+		<div class="title active">
+			<span class="info">果冻大促销</span>
+		</div>
+		<div class="main active" id="cartMain">
+			<ul>
+				<li>
+					<div class="left"><img src="images/cart/pro01.png" alt=""></div>
+					<div class="right">
+						<div class="rig-top">
+							<div class="remove"><a href="###"></a></div>
+							<div class="rig-info">
+								<span class="maininfo">好吃的不得了的喜之郎果肉果冻哦3袋4袋包装哦快来买着吃</span>
+								<span class="fu">白色、XL</span>
+							</div>
+						</div>
+						<div class="rig-bot">
+							<div class="btn">
+								<input type="text" value="-">
+								<input type="text" value="11">
+								<input type="text" value="+">
+							</div>
+							<div class="price">￥66</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="left"><img src="images/cart/pro01.png" alt=""></div>
+					<div class="right">
+						<div class="rig-top">
+							<div class="remove"><a href="###"></a></div>
+							<div class="rig-info">
+								<span class="maininfo">好吃的不得了的喜之郎果肉果冻哦3袋4袋包装哦快来买着吃</span>
+								<span class="fu">白色、XL</span>
+							</div>
+						</div>
+						<div class="rig-bot">
+							<div class="btn">
+								<input type="text" value="-">
+								<input type="text" value="11">
+								<input type="text" value="+">
+							</div>
+							<div class="price">￥66</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="left"><img src="images/cart/pro01.png" alt=""></div>
+					<div class="right">
+						<div class="rig-top">
+							<div class="remove"><a href="###"></a></div>
+							<div class="rig-info">
+								<span class="maininfo">好吃的不得了的喜之郎果肉果冻哦3袋4袋包装哦快来买着吃</span>
+								<span class="fu">白色、XL</span>
+							</div>
+						</div>
+						<div class="rig-bot">
+							<div class="btn">
+								<input type="text" value="-">
+								<input type="text" value="11">
+								<input type="text" value="+">
+							</div>
+							<div class="price">￥66</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+        <div class="cart-settle active">
+		    <div class="right"><a href="###">去结算(01)</a></div>
+		    <div class="left">
+		        <p class="total">总计(不含运费):<span>￥61.20</span></p>
+		        <p class="total dan">订单优惠:<span>￥20.30</span></p>
+		    </div>
+		</div>
+		<div class="nonepor">   <!-- 没商品 -->
+            <div class="icon"></div>
+            <div class="info">你的购物车里没有商品</div>
+            <div class="btn">
+                <button>去逛逛！</button>
+            </div>
+        </div>
+	</section>
+	<!-- 电脑版 -->
+	<section class="cart-computer">
+		<p> <a href="###">触屏版</a> | <a href="###">电脑版</a></p>
+		<p>修改本区域内容，请到商店管理后台 >> 触屏版 >> 基本配置</p>
+		<p>进行编辑</p>
+	</section>
+	</div>
+	<!-- 模态弹窗 -->
+	<section class="cart-modal" id="cart-modal">
+		<div class="modal">
+			<div class="tital"><div class="info">你确认要删除商品吗？</div></div>
+			<button  data-touch="true" class="cancel">取消</button>
+			<button  data-touch="true" class="sure">确定</button>
+		</div>
+	</section>
+<script src="../dist/js/flexible.js"></script>
+<script src="../dist/lib/zepto/zepto.min.js"></script>
+<script src="../dist/js/index.js"></script>
+</body>
+</html>

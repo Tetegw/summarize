@@ -1,0 +1,450 @@
+@charset "utf-8";
+* {
+  box-sizing: border-box;
+}
+/* 禁用iPhone中Safari的字号自动调整 */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  /* 解决IOS默认滑动很卡的情况 */
+  -webkit-overflow-scrolling: touch;
+}
+/* 禁止缩放表单 */
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input {
+  resize: none;
+  border: none;
+  outline: none;
+}
+/* 取消链接高亮  */
+body,
+div,
+ul,
+li,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+select,
+p,
+dl,
+dt,
+dd,
+a,
+img,
+button,
+form,
+table,
+th,
+tr,
+td,
+tbody,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+/* 设置HTML5元素为块 */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+/* 图片自适应 */
+img {
+  width: 100%;
+  height: auto;
+  width: auto\9;
+  /* ie8 */
+  display: block;
+  -ms-interpolation-mode: bicubic;
+  /*为了照顾ie图片缩放失真*/
+}
+/* 初始化 */
+body,
+div,
+ul,
+li,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+select,
+p,
+dl,
+dt,
+dd,
+a,
+img,
+button,
+form,
+table,
+th,
+tr,
+td,
+tbody,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font: 12px/1.5 'Microsoft YaHei', '宋体', Tahoma, Arial, sans-serif;
+  color: #666;
+  background-color: #F7F7F7;
+  position: relative;
+}
+em,
+i {
+  font-style: normal;
+}
+ul,
+li {
+  list-style-type: none;
+}
+strong {
+  font-weight: normal;
+}
+a {
+  text-decoration: none;
+  color: #666666;
+  font-family: 'Microsoft YaHei', Tahoma, Arial, sans-serif;
+}
+a:hover {
+  text-decoration: none;
+}
+ul,
+ol {
+  list-style: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-family: 'Microsoft YaHei';
+}
+img {
+  border: none;
+}
+input {
+  font-family: 'Microsoft YaHei';
+}
+.maxmin {
+  max-width: 1300px;
+  min-width: 600px;
+  margin: 0 auto;
+}
+/*单行溢出*/
+/*多行溢出 手机端使用*/
+.cw-center-y {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+[data-touch].active {
+  background: #f0f0f0 !important;
+}
+body {
+  max-width: 1300px;
+  min-width: 600px;
+  margin: 0 auto;
+}
+.per-header {
+  width: 100%;
+  height: .89rem;
+  background-color: #135cf1;
+  border-bottom: 0.01rem solid #5a8df5;
+  padding: .27rem 0;
+  zoom: 1;
+}
+.per-header:after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+}
+.per-header .header-left {
+  float: left;
+  width: 1.14rem;
+  height: 100%;
+}
+.per-header .header-left a {
+  display: block;
+}
+.per-header .header-left a .icon {
+  width: .34rem;
+  height: .34rem;
+  margin: 0 auto;
+  background: url(../../app/images/shop-icon.png) 0 0 no-repeat;
+  background-size: 5rem;
+  background-position: -0.79rem 0;
+}
+.per-header .header-center {
+  height: 100%;
+  text-align: center;
+  font-size: .34rem;
+  color: #ffffff;
+  line-height: .34rem;
+  margin: 0 1.15rem;
+}
+.per-header .header-right {
+  float: right;
+  width: 1.14rem;
+  height: 100%;
+}
+.per-photo {
+  height: 3.2rem;
+  background: -webkit-linear-gradient(to bottom, #135cf1, #189fdf);
+  background: linear-gradient(to bottom, #135cf1, #189fdf);
+  padding-top: .4rem;
+}
+.per-photo .photo {
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background-color: rgba(0, 159, 228, 0.2);
+  margin: 0 auto;
+  position: relative;
+}
+.per-photo .photo:before {
+  content: "";
+  position: absolute;
+  top: .06rem;
+  left: .06rem;
+  border-radius: 50%;
+  width: 1.68rem;
+  height: 1.68rem;
+  background-color: rgba(0, 159, 228, 0.5);
+}
+.per-photo .photo .photoimg {
+  position: absolute;
+  width: 1.54rem;
+  height: 1.54rem;
+  top: .14rem;
+  left: .13rem;
+  background: url(../../app/images/persol.png) no-repeat 0 0;
+  background-size: 1.54rem;
+}
+.per-photo .photo .level {
+  width: .47rem;
+  height: .47rem;
+  background-color: rgba(127, 207, 241, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  bottom: .05rem;
+  right: 0.12rem;
+}
+.per-photo .photo .level:before {
+  content: "";
+  width: .39rem;
+  height: .39rem;
+  background-color: #7fcff1;
+  border-radius: 50%;
+  position: absolute;
+  top: .04rem;
+  left: .04rem;
+}
+.per-photo .photo .level .leveltxt {
+  position: absolute;
+  top: .04rem;
+  left: .04rem;
+  width: .39rem;
+  height: .39rem;
+  font-size: .2rem;
+  line-height: .39rem;
+  text-align: center;
+  color: #ffffff;
+}
+.per-photo .username {
+  font-size: .34rem;
+  text-align: center;
+  line-height: .54rem;
+  color: #ffffff;
+}
+.per-photo .vip {
+  font-size: .2rem;
+  text-align: center;
+  color: #fffefe;
+}
+.per-nav {
+  border-bottom: 0.01rem solid #e1e1e1;
+}
+.per-nav .title {
+  height: .69rem;
+  padding-left: .49rem;
+  background-color: #ffffff;
+}
+.per-nav .title .txt {
+  position: relative;
+  display: inline-block;
+  padding-left: .48rem;
+  font-weight: bold;
+  color: #009fe4;
+  font-size: .24rem;
+  line-height: .69rem;
+}
+.per-nav .title .txt:before {
+  content: "";
+  width: .33rem;
+  height: .25rem;
+  position: absolute;
+  top: .22rem;
+  left: 0;
+  background: url(../../app/images/shop-icon.png) 0 0 no-repeat;
+  background-size: 5rem;
+  background-position: -0.79rem -0.34rem;
+}
+.per-nav ul {
+  padding: .08rem .18rem 0;
+  background-color: #fff;
+  zoom: 1;
+}
+.per-nav ul:after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+}
+.per-nav ul li {
+  float: left;
+  width: 33.333333%;
+  position: relative;
+}
+.per-nav ul li .icon {
+  width: .76rem;
+  height: .76rem;
+  background: url(../../app/images/shop-icon.png) 0 0 no-repeat;
+  background-size: 5rem;
+  background-position: -0.79rem -0.6rem;
+  margin: 0 auto;
+}
+.per-nav ul li p {
+  font-size: .2rem;
+  line-height: .7rem;
+  text-align: center;
+  color: #7f7f7f;
+}
+.per-nav ul li:nth-child(1):before,
+.per-nav ul li:nth-child(2):before {
+  content: "";
+  position: absolute;
+  top: .18rem;
+  right: 0px;
+  width: .01rem;
+  height: .4rem;
+  background-color: #bbbbbb;
+}
+.per-nav ul li:nth-child(2) .icon {
+  background-position: -0.79rem -1.36rem;
+}
+.per-nav ul li:nth-child(3) .icon {
+  background-position: -0.79rem -2.12rem;
+}
+.per-tab {
+  margin-top: .16rem;
+  border-bottom: 0.01rem solid #e1e1e1;
+  border-top: 0.01rem solid #e1e1e1;
+  background-color: #ffffff;
+}
+.per-tab ul {
+  padding-left: .48rem;
+}
+.per-tab ul li {
+  height: 1rem;
+  border-top: 0.01rem solid #e1e1e1;
+  position: relative;
+}
+.per-tab ul li .name {
+  padding-left: .8rem;
+  position: relative;
+  font-size: .24rem;
+  line-height: .99rem;
+}
+.per-tab ul li .name:before {
+  content: "";
+  background: url(../../app/images/shop-icon.png) 0 0 no-repeat;
+  background-size: 5rem;
+  background-position: -1.56rem 0;
+  width: .4rem;
+  height: 1rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.per-tab ul li .goto {
+  position: absolute;
+  top: .37rem;
+  right: .48rem;
+  background: url(../../app/images/shop-icon.png) 0 0 no-repeat;
+  background-size: 5rem;
+  width: .14rem;
+  height: .26rem;
+  background-position: -1.55rem -3.97rem;
+}
+.per-tab ul li .goto span {
+  display: inline-block;
+  position: absolute;
+  top: 0.02rem;
+  right: .3rem;
+  height: .22rem;
+  font-size: .2rem;
+  line-height: .22rem;
+  color: #ffffff;
+  background-color: #f55252;
+  border-radius: .11rem;
+  padding: 0 .11rem;
+}
+.per-tab ul li:first-child {
+  border-top: none;
+}
+.per-tab ul li:nth-child(2) .name:before {
+  background-position: -1.56rem -1rem;
+}
+.per-tab ul li:nth-child(3) .name:before {
+  background-position: -1.56rem -1.99rem;
+}
+.per-tab ul li:nth-child(4) .name:before {
+  background-position: -1.56rem -2.98rem;
+}

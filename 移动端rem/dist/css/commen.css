@@ -1,0 +1,15 @@
+.maxmin {
+  max-width: 1300px;
+  min-width: 600px;
+  margin: 0 auto;
+}
+/*单行溢出*/
+/*多行溢出 手机端使用*/
+.cw-center-y {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+[data-touch].active {
+  background: #f0f0f0 !important;
+}
