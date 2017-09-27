@@ -1,0 +1,69 @@
+{
+  "name": "angular-route",
+  "version": "1.5.9",
+  "description": "AngularJS router module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/angular.js.git"
+  },
+  "keywords": [
+    "angular",
+    "framework",
+    "browser",
+    "router",
+    "client-side"
+  ],
+  "author": {
+    "name": "Angular Core Team",
+    "email": "angular-core+npm@google.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angular/angular.js/issues"
+  },
+  "homepage": "http://angularjs.org",
+  "jspm": {
+    "shim": {
+      "angular-route": {
+        "deps": [
+          "angular"
+        ]
+      }
+    }
+  },
+  "gitHead": "73344d79701595b093ed8deaee0b46b9bb0d3970",
+  "_id": "angular-route@1.5.9",
+  "_shasum": "4f0582eb0fb4435443a05a7d8c5eb9bdc2c5c41c",
+  "_from": "angular-route@latest",
+  "_npmVersion": "2.15.8",
+  "_nodeVersion": "4.4.7",
+  "_npmUser": {
+    "name": "angularcore",
+    "email": "angular-core+npm@google.com"
+  },
+  "dist": {
+    "shasum": "4f0582eb0fb4435443a05a7d8c5eb9bdc2c5c41c",
+    "tarball": "https://registry.npmjs.org/angular-route/-/angular-route-1.5.9.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "angularcore",
+      "email": "angular-core+npm@google.com"
+    },
+    {
+      "name": "petebd",
+      "email": "pete@bacondarwin.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/angular-route-1.5.9.tgz_1480018724095_0.7499435271602124"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/angular-route/-/angular-route-1.5.9.tgz",
+  "readme": "ERROR: No README data found!"
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>电影展示</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/wap.css">
+</head>
+
+<body ng-app="moviecat">
+    <!-- 顶部导航栏开始 -->
+    <div class="top">
+        <div class="header">
+            <a class="logo" href="#/home_page">豆瓣电影</a>
+            <div class="search" ng-controller="HomeController">
+                <input class="my-input" type="text" ng-model="searchTxt" placeholder="电影搜索">
+                <button ng-click="search()"></button>
+            </div>
+            <a class="ad" href="javascript:void(0)">
+                <img src="assets/img/ad_web.png" alt="">
+            </a>
+        </div>
+        <nav class="nav">
+            <!-- <menu-active></menu-active> -->
+            <ul menu-active>
+                <li><a href="#/home_page">首页</a></li>
+                <li><a href="#/in_theaters">正在热映</a></li>
+                <li><a href="#/coming_soon">即将上映</a></li>
+                <li><a href="#/top250">Top250</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!-- 顶部导航栏结束 -->
+
+    <div class="container" ng-view></div>
+
+    <footer class="footer">
+        <span class="left">© 2005－2017 ****.com, all rights reserved 北京****有限公司</span>
+        <span class="right">关于豆瓣 · 在豆瓣工作 · 联系我们 · 免责声明 · 帮助中心 · 移动应用 · 豆瓣广告</span>
+    </footer>
+
+    <script src="assets/js/prefixfree.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-route/angular-route.min.js"></script>
+    <script src="app.js"></script>
+    <script src="home/home_page.js"></script>
+    <script src="movie_list/module.js"></script>
+    <script src="jsonpService/jsonpSrv.js"></script>
+    <script src="directive/module.js"></script>
+    <script src="details/module.js"></script>
+    <!-- <script src="in_theaters/in_theaters.js"></script>
+    <script src="coming_soon/coming_soon.js"></script>
+    <script src="top250/top250.js"></script> -->
+</body>
+
+</html>

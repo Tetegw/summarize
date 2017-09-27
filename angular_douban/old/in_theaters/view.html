@@ -1,0 +1,23 @@
+<!--电影列表开始-->
+<div class="list">
+  <ul>
+    <li ng-repeat="m in movieData.subjects track by $index">
+      <a href="#/details">
+        <!-- 浏览器优先解析 src 属性，所以我们写的 {{m.images.large}} 就被当作路径来请求图片了 -->
+        <!-- 浏览器遇到 src 属性，都会自动发请求！！！ -->
+        <img ng-src="{{m.images.large}}" alt="">
+      </a>
+      <div class="meta">
+        <h4><span>{{ m.title }}</span> <em>{{m.rating.average}}分</em></h4>
+        <div class="otherinfo">类型:<span ng-repeat="gen in m.genres">{{gen}}</span></div>
+      </div>
+    </li>
+  </ul>
+  <div class="paging">
+    <label>总共：{{movieData.total}}条记录,第{{curPage}}/{{pageCount}}页;</label>
+    <!-- 加上disable类样式，表示按钮禁用状态 -->
+    <button class="prev" ng-class="{disable: curPage <= 1}" ng-click="goPage(curPage-1)">上一页</button>
+    <button class="next" ng-class="{disable: curPage >= pageCount}" ng-click="goPage((curPage-0)+1)">下一页</button>
+  </div>
+</div>
+<!--电影列表结束-->

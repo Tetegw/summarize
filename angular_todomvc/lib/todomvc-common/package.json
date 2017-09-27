@@ -1,0 +1,68 @@
+{
+  "name": "todomvc-common",
+  "version": "1.0.3",
+  "description": "Common TodoMVC utilities used by our apps",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tastejs/todomvc-common.git"
+  },
+  "author": {
+    "name": "TasteJS"
+  },
+  "main": "base.js",
+  "style": "base.css",
+  "files": [
+    "base.js",
+    "base.css"
+  ],
+  "keywords": [
+    "todomvc",
+    "tastejs",
+    "util",
+    "utilities"
+  ],
+  "gitHead": "e7425bafb9561d766b769844810e0496734ffe8c",
+  "bugs": {
+    "url": "https://github.com/tastejs/todomvc-common/issues"
+  },
+  "homepage": "https://github.com/tastejs/todomvc-common#readme",
+  "_id": "todomvc-common@1.0.3",
+  "scripts": {},
+  "_shasum": "cba1868109caa401b908ebf77794cc1014b74873",
+  "_from": "todomvc-common@>=1.0.0 <2.0.0",
+  "_npmVersion": "3.10.9",
+  "_nodeVersion": "7.1.0",
+  "_npmUser": {
+    "name": "sindresorhus",
+    "email": "sindresorhus@gmail.com"
+  },
+  "dist": {
+    "shasum": "cba1868109caa401b908ebf77794cc1014b74873",
+    "tarball": "https://registry.npmjs.org/todomvc-common/-/todomvc-common-1.0.3.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "sindresorhus",
+      "email": "sindresorhus@gmail.com"
+    },
+    {
+      "name": "addyosmani",
+      "email": "addyosmani@gmail.com"
+    },
+    {
+      "name": "passy",
+      "email": "phartig@rdrei.net"
+    },
+    {
+      "name": "stephenplusplus",
+      "email": "sawchuk@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/todomvc-common-1.0.3.tgz_1479276361227_0.51124880136922"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/todomvc-common/-/todomvc-common-1.0.3.tgz"
+}
