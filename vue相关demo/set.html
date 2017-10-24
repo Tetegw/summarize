@@ -10,25 +10,49 @@
 </head>
 
 <body>
-    <div id="app">{{media.bb}}
-        <button @click="edit">点击</button>
+    <div id="app">
+        <ul>
+            <li>{{test01.aa}}</li>
+            <li>{{test02.aa}}</li>
+            <li>{{test03.aa}}</li>
+        </ul>
+        <button @click="edit01">点击</button>
+        <button @click="edit02">点击</button>
+        <button @click="edit03">点击</button>
+        <button @click="edit04">还原</button>
     </div>
     <script>
         var app = new Vue({
             el: '#app',
             data: {
-                media: {}
+                test01: {},
+                test02: {},
+                test03: {}
             },
             created() {
-                /* this.media.bb = '小d比'                // 不响应 */
-                /* this.media = {                         // 响应
-                    bb: '小d比'
-                } */
-                /* this.$set(this.media, 'bb', '小d比')   // 响应 */
+                this.test01.aa = '我是aaaa'                // 不响应
+                this.test02 = {                             // 响应
+                    aa: '我是bbbb'
+                }
+                this.$set(this.test03, 'aa', '我是cccc')   // 响应
             },
             methods: {
-                edit() {
-                    this.media.bb = '小二比'
+                edit01() {
+                    this.test01.aa = '我是AAA'
+                    // 第一次点击不响应，但是点击其他的，会渲染页面，从而导致被重新渲染
+                },
+                edit02() {
+                    this.test02.aa = '我是BBB'
+                },
+                edit03() {
+                    this.test03.aa = '我是CCC'
+                },
+                edit04() {
+                    this.test01.aa = '我是aaaa'                // 不响应
+                    this.test02 = {                             // 响应
+                        aa: '我是bbbb'
+                    }
+                    this.$set(this.test03, 'aa', '我是cccc')   // 响应
                 }
             }
         })
