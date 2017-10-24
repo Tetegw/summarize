@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+    <div id="app">{{media.bb}}
+        <button @click="edit">点击</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                media: {}
+            },
+            created() {
+                /* this.media.bb = '小d比'                // 不响应 */
+                /* this.media = {                         // 响应
+                    bb: '小d比'
+                } */
+                /* this.$set(this.media, 'bb', '小d比')   // 响应 */
+            },
+            methods: {
+                edit() {
+                    this.media.bb = '小二比'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
