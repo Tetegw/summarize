@@ -8,7 +8,7 @@
 ### angular
 
 - angular1 豆瓣电影 https://tetegw.github.io/summarize/angular_douban/index.html
-- angular1 Todos https://tetegw.github.io/summarize/angular_douban/index.html
+- angular1 Todos https://tetegw.github.io/summarize/angular_todomvc/index.html
 
 
 
