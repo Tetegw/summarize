@@ -1,4 +1,25 @@
-# laboratory
-### 实验室，测试一些插件或新属性
+# Demo
+### vue
+
+- vue对象响应问题 https://tetegw.github.io/summarize/vue相关demo/set.html
+
+
+
+### angular
+
+- angular1 豆瓣电影 https://tetegw.github.io/summarize/angular_douban/index.html
+- angular1 Todos https://tetegw.github.io/summarize/angular_douban/index.html
+
+
+
+### 其他框架
 
 - fastclick插件  https://tetegw.github.io/summarize/fastclick/   {手机测试，移动端300ms延迟，和点击态效果}
+- 前端路由  https://tetegw.github.io/summarize/前端路由/index.html {前端路由小框架}
+
+
+
+### 其他实践
+
+- 图片居中适配案例 https://tetegw.github.io/summarize/图片居中适配案例/ {手机, pc自适应小案例}
+- 移动端rem https://tetegw.github.io/summarize/移动端rem/app/index {移动端rem实践案例}
