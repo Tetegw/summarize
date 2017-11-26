@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数据结构(列表)</title>
+  <style>
+  #app div{ margin-top: 20px }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div>{{myList}}</div>
+    <div>List成员：====== {{dataStore}}</div>
+    <div>List成员的length：{{length}}</div>
+    <div>append添加一个元素: <button @click="append">append</button></div>
+    <div>find查找一个元素: <button @click="find">find</button> === 要查找的元素：2，位置：【{{findIndex}}】</div>
+    <div>remove移除一个元素: <button @click="remove">remove</button> === 要移除的元素：3</div>
+    <div>toString转成字符串: <button @click="toString">toString</button>【{{stringResult}}】</div>
+    <div>insert向某个位置添加一个元素: <button @click="insert">insert</button> === 要添加的元素5，要添加在2后</div>
+    <div>clear清空所有元素: <button @click="clear">clear</button></div>
+    <div>currPos将列表当前位置: <button @click="currPos">currPos</button> ==== 当前位置【{{pos}}】</div>
+    <div>front将列表的位置移到第一个位置上: <button @click="front">front</button></div>
+    <div>end将列表的位置移到第一个位置上: <button @click="end">end</button></div>
+    <div>prev将列表的位置前移一位: <button @click="prev">prev</button></div>
+    <div>next将列表的位置后移一位: <button @click="next">next</button></div>
+    <div>moveTo查找一个元素: <button @click="moveTo">moveTo</button> === 要移动到的位置为：3</div>
+    <div>getElement查找一个元素: <button @click="getElement">getElement</button> 【{{currEle}}】</div>
+    <div>contains查看一个元素是否在List中: <button @click="contains">contains</button> === 要判断的元素是4，【{{isInclude}}】</div>
+  </div>
+  <script src="./vue.js"></script>
+  <script src="./List.js"></script>
+  <script>
+    let list = new List()
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          myList: list,
+          findIndex: '',
+          stringResult: '',
+          pos: '',
+          currEle: '',
+          isInclude: ''
+        }
+      },
+      computed: {
+        length () {
+          return list.length
+        },
+        dataStore () {
+          return list.dataStore
+        }
+      },
+      methods: {
+        append () {
+          let rd = Math.floor(Math.random()*10)
+          list.append(rd)
+        },
+        find () {
+          this.findIndex = list.find(2)
+        },
+        remove () {
+          list.remove(3)
+        },
+        toString () {
+          this.stringResult = list.toString()
+        },
+        insert () {
+          list.insert(5, 2)
+        },
+        clear () {
+          list.clear()
+        },
+        currPos () {
+          this.pos = list.currPos()
+        },
+        front () {
+          list.front()
+          this.pos = list.currPos()
+        },
+        end () {
+          list.end()
+          this.pos = list.currPos()
+        },
+        prev () {
+          list.prev()
+          this.pos = list.currPos()
+        },
+        next () {
+          list.next()
+          this.pos = list.currPos()
+        },
+        moveTo () {
+          list.moveTo(3)
+          this.pos = list.currPos()
+        },
+        getElement () {
+          this.currEle = list.getElement()
+        },
+        contains () {
+          this.isInclude = list.contains(4)
+        }
+      }
+    }) 
+  </script>
+</body>
+</html>
