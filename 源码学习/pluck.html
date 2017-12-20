@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>every/some</title>
+  <title>map</title>
 </head>
 <body>
   <script>
-    var _ = {};
+    var _ = {}
     var optimizeCb = function (func, context, argCount) { 
       if (context === (void 0)) return func;
       switch ((argCount == null) ? 3 : argCount) {
@@ -22,7 +22,6 @@
           break;
       }
     }
-    // 判断是不是伪数组或者数组
     var isArayLike = function (collection) { 
       var length = collection && collection.length
       return (((typeof length) === 'number') && (length > 0)) && (length < ((Math.pow (2, 53)) - 1))
@@ -50,39 +49,27 @@
       }
       return keys
     }
-
-    _.every = function (obj, predicate, context) { 
-      predicate = optimizeCb(predicate, context)
+    _.map = function (obj, iteratee, context) {
+      iteratee = optimizeCb(iteratee, context)
       var keys = (!isArayLike(obj)) && _.key(obj),
-          length = (keys || obj).length
+          length = (keys || obj).length;
+      var result = []
       for (let i = 0; i < length; i++) {
         var currentKey = keys ? keys[i] : i
-        if (!predicate(obj[currentKey], currentKey, obj)) {
-          return false
-        }
+        result[i] = iteratee(obj[currentKey], currentKey, obj)
       }
-      return true
+      return result
     }
-
-    _.some = function (obj, predicate, context) { 
-      predicate = optimizeCb(predicate, context)
-      var keys = (!isArayLike(obj)) && _.key(obj),
-          length = (keys || obj).length
-      for (let i = 0; i < length; i++) {
-        var currentKey = keys ? keys[i] : i
-        if (predicate(obj[currentKey], currentKey, obj)) {
-          return true
-        }
-      }
-      return false
+    _.property = function (key) { 
+      return function (obj) {
+        return obj == null ? (void 0) : obj[key]
+       }
     }
-
-    console.log(_.every(['11', '2', 3], function (value, index, obj) {
-      return typeof value === 'string'
-    }))
-    console.log(_.some(['11', '2', 3], function (value, index, obj) {
-      return typeof value === 'string'
-    }))
+    _.pluck = function (obj, key) {
+      return _.map(obj, _.property(key))
+    }
+    var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+    console.log(_.pluck(stooges, 'name'))
 
   </script>
 </body>
