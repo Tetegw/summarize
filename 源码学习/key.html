@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>key</title>
+</head>
+<body>
+  <script>
+    var _ = {}
+    // 获取es5原生 Object.keys
+    nativeKeys = Object.keys
+    // 判断是不是对象object
+    isObject = function (obj) { 
+      var type = typeof obj;
+      return (type === 'function' || type === 'object') && (!!obj)
+    }
+    // 判断时候有对应key
+    _.has = function (obj, key) { 
+      return (obj != null) && hasOwnProperty.call(obj, key)
+    }
+    // 获取对象的key
+    _.key = function (obj) { 
+      if (!isObject(obj)) { return [] };
+      if (nativeKeys) {  return nativeKeys(obj) }
+      var keys = []
+      for (const key in obj) {
+        if (_.has(obj, key)) {
+          keys.push(key)
+        }
+      }
+      return keys
+    }
+
+    console.log(_.key({'a': 'aa', 'b': 'bb', 'c': 'cc'}));
+  </script>
+</body>
+</html>

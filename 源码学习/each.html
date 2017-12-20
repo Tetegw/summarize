@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>each</title>
+</head>
+<body>
+  <script>
+    var _ = {};
+    var sun = {};
+    var isArayLike = function (collection) { 
+      var length = collection && collection.length
+      return (((typeof length) === 'number') && (length > 0)) && (length < ((Math.pow (2, 53)) - 1))
+    } 
+    var optimizeCb = function (func, context, argCount) { 
+      if (context === (void 0)) return func;
+      switch ((argCount == null) ? 3 : argCount) {
+        case 3:
+          return function (value, index, collection) {
+            return func.call(context, value, index, collection)
+          }
+          break;
+        default:
+          return func.apply(context, arguments)
+          break;
+      }
+    }
+    _.each = function (obj, iteratee, context) {
+      iteratee = optimizeCb(iteratee, context)
+      if(isArayLike(obj)) {
+        for (let i = 0; i < obj.length; i++) {
+          iteratee(obj[i], i, obj)
+        }
+      } else {
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            iteratee(obj[key], key, obj)
+          }
+        }
+      }
+    }
+
+    _.each({
+      'a': 'aa',
+      'b': 'bb',
+      'c': 'cc'
+    }, function (value, index, collection) { 
+      console.log(value, index, collection)
+    }, sun)
+  </script>
+</body>
+</html>
