@@ -316,9 +316,77 @@ prop是单向绑定的：当父组件的属性变化时，将传导给子组件�
 
 #### Prop验证
 
-我们可以为组件的props指定验证规格。如果传入的数据不符合
+我们可以为组件的prop指定验证规则。如果传入的数据不符合要求，Vue会发出警告。这对于开发给他人使用的组件非常有用。
 
-### 非Prop属性
+要指定验证规则，需要用对象的形式来定义prop，而不能用字符串数组：
+
+```js
+Vue.component('example', {
+  props: {
+    // 基础类型检测(`null` 指允许任何类型)
+    propA: Number,
+    // 可能是多种类型
+    propB: [String, Number],
+    // 必传且是字符串
+    propC: {
+      type: String,
+      required: true
+    },
+    // 数值且有默认值
+    propD: {
+      type: Number,
+      default: 100
+    },
+    // 数组/对象的默认值应当由一个工厂函数返回
+    propE: {
+      type: Object,
+      default: function () {
+          renturn { message: 'hello' }
+      }
+    },
+    // 自定义验证函数
+    propF: {
+        validator: function (value) {
+            return value > 10
+        }
+     }
+  }
+})
+```
+
+`type`可以是下面原生构造器：
+
+- String
+- Number
+- Boolean
+- Function
+- Object
+- Array
+- Symbol
+
+
+
+`type`也可以是一个自定义构造器函数，使用`instanceof`检测。
+
+当prop验证失败，Vue会抛出警告（如果使用的是开发版本）。注意prop会在组件实例创建之前进行校验，所以在`default`或`validator`函数里，诸如`data`,`computed`或者`methods`等实例属性还无法使用。
+
+
+
+### 非Prop特性
+
+所谓非prop特性，就是值它可以直接传入组件，而不需要定义相应的prop。
+
+尽管为组件定义明确的prop是推荐的传参方式，组件的作者却并不总能预见到组件被使用的场景。所以，组件可以接受任意传入的特性，这些特性都会被添加到组件根元素上。
+
+例如，假设我们使用了第三方组件`bs-date-input`，它包含一个Bootstrap插件，该插件需要在`input`上添加`data-3d-date-picker`这个特性。这时可以把特性直接添加到组件上(不需要事先定义`prop`)：
+
+```html
+<bs-date-input data-3d-date-picker="true"></bs-date-input>
+```
+
+添加属性`data-3d-date-picker="true"`之后，它会被自动添加到`bs-date-input`的根元素上。
+
+
 
 #### 替换/覆盖现有的特性
 
