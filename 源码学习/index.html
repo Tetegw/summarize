@@ -32,6 +32,29 @@
     console.log('========== reduce/foldl/inject ===============');        
     var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 10);
     console.log(sum);
+    console.log('========== findIndex ===============');        
+    var fIndex = _.findIndex([1, 2, 3, 4], function (value, index, array) { 
+      return value === 1
+    })
+    console.log(fIndex);
+    console.log('========== find ===============');        
+    var fIndex2 = _.find([1, 2, 3, 4], function (value, index, obj) { 
+      return value > 2
+    })
+    var fIndex3 = _.find({'1': 'aa', '2': 'bb', '3': 'cc'}, function (value, index, obj) { 
+      return index = '1'
+    })
+    console.log(fIndex2);
+    console.log(fIndex3);
+    console.log('========== filter ===============');        
+    var filRes = _.filter([1, 2, 3, 4, 5], function (value, index, obj) { 
+      return index > 2
+    })
+    var filRes2 = _.filter({'1': 11, '2': 22, '3': 33}, function (value, index, obj) { 
+      return value > 20
+    })
+    console.log(filRes);
+    console.log(filRes2);
   </script>
 </body>
 </html>
