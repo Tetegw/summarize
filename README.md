@@ -1,7 +1,7 @@
 # Demo
 ### vue
 
-- vue对象响应问题 https://tetegw.github.io/summarize/vue相关demo/set.html
+- vue对象响应问题 https://tetegw.github.io/summarize/vue相关demo/对象响应set.html
 
 
 
