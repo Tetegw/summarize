@@ -8,5 +8,30 @@
 </head>
 <body>
   <script src="./copyUnderscore.js"></script>
+  <script>
+    console.log('========= isObject =============');
+    console.log(_.isObject({'1': '22'}));
+    console.log('========= has =============');
+    console.log(_.has({'1': '22', '22': '33'}, ['22', '1']));
+    console.log(_.has({'1': '22', '22': '33'}, '1'));
+    console.log('========== key ===============');
+    console.log(_.keys({'1': '11', '2': '22'}));
+    console.log(_.keys([1, 2, 3, 4, 5, 6]));
+    console.log('========== each/forEach ===============');
+    _.each([1, 2, 3, 4], function (value, index, obj) { 
+      console.log(index, value, obj);
+    });
+    _.each({'1': '11', '2': '22', '3': '33'}, function (value, index, obj) { 
+      console.log(index, value, obj);
+    });
+    console.log('========== map/collect ===============');    
+    var mapRes = _.map([1, 2, 3, 4, 5, 6], function (value, index, obj) { 
+      return value + '==='
+    });
+    console.log(mapRes);
+    console.log('========== reduce/foldl/inject ===============');        
+    var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 10);
+    console.log(sum);
+  </script>
 </body>
 </html>
