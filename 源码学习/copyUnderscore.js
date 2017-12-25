@@ -199,7 +199,7 @@
 
   // 【暴露】过滤符合回调函数的数据(数组形式)
   // 使用_.each方法，在回调函数里调用predicate检测
-  _.filter = _.select = function (obj, predicate, context) { 
+  _.filter = _.select = function (obj, predicate, context) {
     var result = []
     predicate = cb(predicate, context)
     _.each(obj, function (value, index, obj) { 
@@ -209,6 +209,52 @@
     })
     return result;
   }
+
+  // 【暴露】不符合过滤条件的数据(数组形式)
+  // 调用filter，也就是第二个参数(_.negate(cb(predicate, context)))需要return true或者false的函数，也就是在negate函数内，符合的为fasle，不符合的为true
+  _.reject = function (obj, predicate, context) {
+    return _.filter(obj, _.negate(cb(predicate, context)), context)
+  }
+
+  //【暴露】每一个都符合，返回true，类比于es5中的every
+  // 不能用_.each()，因为_.each()没有返回值，return false只会跳出_.each()
+  _.every = _.all =  function (obj, predicate, context) { 
+    predicate = optimizeCb(predicate, context)
+    var keys = (!isArrayLike(obj)) && _.keys(obj)
+        length = (keys || obj).length;
+    for (let i = 0; i < length; i++) {
+      var currentKey = keys ? keys[i] : i
+      if (!predicate(obj[currentKey], currentKey, obj)) {
+        return false
+      }
+    }
+    return true
+  }
+
+  //【暴露】有一个符合条件，就返回true，否则返回false
+  _.some = _.any = function (obj, predicate, context) { 
+    var predicate = optimizeCb(predicate, context)
+    var keys = (!isArrayLike(obj)) && _.keys(obj)
+        length = (keys || obj).length;
+    for (let i = 0; i < length; i++) {
+      var currentKey = keys ? keys[i] : i
+      if (predicate(obj[currentKey], currentKey, obj)) {
+        return true
+      }
+    }
+    return false
+  }
+
+  //【暴露】检测一个数组或对象中是否有 给定的item
+  _.contains = _.includes = _.include = function (obj, item, fromIndex, guard) { 
+    // 将obj对象的值 取出来存在数组中
+    if (!isArrayLike(obj)) { obj = _.values(obj) }
+    if ( (typeof fromIndex !== 'number') || guard ) {
+      fromIndex = 0
+    }
+    return _.indexof(obj, item, fromIndex) >= 0
+  }
+
 
   // ======================== 数组 Array ==========================
   // 根据传入的参数正负数判断正序和倒序，创建一个createPredicateIndexFinder函数
@@ -230,7 +276,26 @@
   _.findIndex = createPredicateIndexFinder(1)
   _.findLastIndex = createPredicateIndexFinder(-1)
 
+
+  // 返回value在该 array 中的索引值，如果value不存在 array中就返回-1。使用原生的indexOf 函数，除非它失效。如果您正在使用一个大数组，你知道数组已经排序，传递true给isSorted将更快的用二进制搜索..,或者，传递一个数字作为第三个参数，为了在给定的索引的数组中寻找第一个匹配值。
+  var createIndexFinder = function (dir, predicateFind, sortedIndex) { 
+    return function (array, index, idx) {
+      // 返回索引
+      // todo
+    }
+  }
+  //【暴露】返回value在该 array 中的索引值，如果value不存在 array中就返回-1。
+  _.indexOf = createIndexFinder (1, _.findIndex, _.sortedIndex)
+  _.lastIndexOf = createIndexFinder (- 1, _.findLastIndex)
+
   // ======================== 函数 Function ==========================
+  // 【暴露】返回一个新的predicate函数的否定版本。
+  _.negate = function (predicate) {
+    return function () {
+      return !(predicate.apply(this, arguments))
+    }
+  }
+
   // ======================== 对象 Object ==========================
   // 【暴露】获取obj的key集合
   _.keys = function (obj) {

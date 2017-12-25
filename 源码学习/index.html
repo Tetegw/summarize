@@ -55,6 +55,20 @@
     })
     console.log(filRes);
     console.log(filRes2);
+    console.log('========== reject ===============');        
+    var reject = _.reject([1, 2, 3, 4, 5], function (value, index, obj) { 
+      return index > 2
+    })
+    var reject2 = _.reject({'1': 11, '2': 22, '3': 33}, function (value, index, obj) { 
+      return value > 20
+    })
+    console.log(reject);
+    console.log(reject2);
+    console.log('========== every ===============');        
+    var everyRes = _.every([1, 2, 3, 4], function (value, index, obj) { 
+      return value > 1
+    })
+    console.log(everyRes);
   </script>
 </body>
 </html>
