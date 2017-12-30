@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <rect
+    x="50"
+    y="50"
+    width="100"
+    height="200"
+    fill="#d9d9d9"
+    stroke="#999"
+  ></rect>
+  <circle
+    cx="300"
+    cy="150"
+    r="100"
+    fill="#999"
+    stroke="#d9d9d9"
+  >
+  </circle>
+  <ellipse
+    cx="150"
+    cy="500"
+    rx="130"
+    ry="100"
+    fill="#d9d9d9"
+    stroke="#999"
+  >
+  </ellipse>
+  <line 
+    x1="450"
+    y1="150"
+    x2="650"
+    y2="150"
+    stroke="#d9d9d9"
+    stroke-width="4"
+  ></line>
+  <polyline
+    points="400 500
+            480 350
+            510 800"
+    fill="none"
+    stroke="#999"
+  >
+  </polyline>
+  <polygon
+    points="600 500
+            680 350
+            710 800"
+    fill="none"
+    stroke="#999"
+  >
+  </polygon>
+</svg>
