@@ -23,3 +23,4 @@
 
 - 图片居中适配案例 https://tetegw.github.io/summarize/图片居中适配案例/ {手机, pc自适应小案例}
 - 移动端rem https://tetegw.github.io/summarize/移动端rem/app/index {移动端rem实践案例}
+- 图片预览及转base64 https://tetegw.github.io/summarize/图片预览及base64/  {兼容处理}
