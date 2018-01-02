@@ -11,7 +11,7 @@
   <img id="img1" src="" alt="">
   <img id="img2" src="" alt="">
   <canvas id="canvas"></canvas>
-  <div class="hack"></div>
+  <div id="hack"></div>
   <script>
     var imgUpload = document.querySelector('#img_upload')
     var img1 = document.querySelector('#img1')
@@ -42,7 +42,7 @@
       } else {
         // 兼容IE10以下
         console.log(this.value)
-        var hack = document.querySelector('.hack')
+        var hack = document.getElementById('hack')
         hack.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + this.value + '\'"></div>'
         }
     })
