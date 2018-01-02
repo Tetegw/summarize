@@ -18,7 +18,6 @@
     var canvas = document.querySelector('#canvas')
     var base64 = null
     imgUpload.addEventListener('change', function(e){
-      if (this.files && this.files[0]) {
         var file = e.target.files[0]
         console.log(file)
         // objectURL = window.URL.createObjectURL(blob)
@@ -38,9 +37,6 @@
           console.log(base64)
           img2.src= base64
         })
-      } else {
-        console.log('请使用IE10及以上版本浏览器')
-      }
     })
 
     // canvas.toDataURL()
@@ -56,7 +52,7 @@
       console.log(base64)
     })
     /* 
-      总结：
+      总结：兼容IE10以上，以下请使用滤镜做兼容(百度)
       window.URL.createObjectURL(blob) 依赖file或者blob，并且提供预览，但不是base64
       readAsDataURL(file) 依赖file或者blob，提供预览，是base64
       canvas.toDataURL('image/png', 1) 依赖图片的url，提供预览，是bae64
