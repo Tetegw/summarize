@@ -11,7 +11,6 @@
   <img id="img1" src="" alt="">
   <img id="img2" src="" alt="">
   <canvas id="canvas"></canvas>
-  <div id="hack"></div>
   <script>
     var imgUpload = document.querySelector('#img_upload')
     var img1 = document.querySelector('#img1')
@@ -40,11 +39,8 @@
           img2.src= base64
         })
       } else {
-        // 兼容IE10以下
-        console.log(this.value)
-        var hack = document.getElementById('hack')
-        hack.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + this.value + '\'"></div>'
-        }
+        console.log('请使用IE10及以上版本浏览器')
+      }
     })
 
     // canvas.toDataURL()
@@ -64,7 +60,6 @@
       window.URL.createObjectURL(blob) 依赖file或者blob，并且提供预览，但不是base64
       readAsDataURL(file) 依赖file或者blob，提供预览，是base64
       canvas.toDataURL('image/png', 1) 依赖图片的url，提供预览，是bae64
-      IE低版本需要用滤镜兼容
     */
   </script>
 </body>
