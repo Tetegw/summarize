@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./reset.css">
+    <style>
+        .scroll-touch {
+            margin-top: 2000px;
+        }
+        
+        .placeholder::-webkit-input-placeholder {
+            color: red
+        }
+        
+        .no-select {
+            -webkit-user-select: none;
+        }
+        
+        .no-save {
+            pointer-events: none;
+            -webkit-touch-callout: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>我是测试文字横竖屏字体变化</div>
+    <div>我是测试文字横竖屏字体变化 Hello World</div>
+    <br><br>
+    <div>
+        <input type="text" placeholder="测试点击聚焦边框">
+    </div>
+    <div>
+        <input type="text" class="placeholder" placeholder="测试placeholder颜色改变">
+    </div>
+    <br><br>
+    <p class="no-select">我是不能被选中的</p>
+    <br><br>
+    <p>
+        图片可以保存<img src="https://www.baidu.com/img/baidu_jgylogo3.gif" alt="">
+    </p>
+    <p>
+        图片不可以保存<img class="no-save" src="https://www.baidu.com/img/baidu_jgylogo3.gif" alt="">
+    </p>
+
+    <div class="scroll-touch">我是测试滑动卡顿问题</div>
+</body>
+
+</html>
