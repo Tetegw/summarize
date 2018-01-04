@@ -19,11 +19,22 @@
         
         .no-select {
             -webkit-user-select: none;
+            user-select: none;
         }
         
         .no-save {
             pointer-events: none;
             -webkit-touch-callout: none;
+        }
+        .skew, .skew-no{
+            width: 200px;
+            height: 200px;
+            background-color:brown;
+            -webkit-transform: rotate(-4deg) skew(-10deg) translateZ(0);
+            transform: rotate(-4deg) skew(10deg) translateZ(0);
+        }
+        .skew-no{
+            outline: 1px solid rgba(255,255,255,0)
         }
     </style>
 </head>
@@ -47,7 +58,20 @@
     <p>
         图片不可以保存<img class="no-save" src="https://www.baidu.com/img/baidu_jgylogo3.gif" alt="">
     </p>
-
+    <br><br>
+    <div>
+        <input type="text" placeholder="默认首写字母大写">
+    </div>
+    <div>
+        <input type="text" autocapitalize="off" placeholder="关闭首写字母大写">
+    </div>
+    <div>
+        <input type="text" autocorrect="off" placeholder="关闭自动修正">
+    </div>
+    <br><br>
+    <div class="skew">变换后有锯齿</div>
+    <br>
+    <div class="skew-no">变换后无锯齿</div>
     <div class="scroll-touch">我是测试滑动卡顿问题</div>
 </body>
 

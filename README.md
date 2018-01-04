@@ -23,6 +23,6 @@
 
 - 图片居中适配案例 https://tetegw.github.io/summarize/图片居中适配案例/ {手机, pc自适应小案例}
 - 移动端rem https://tetegw.github.io/summarize/移动端rem/app/index {移动端rem实践案例}
-- 移动端填坑 https://tetegw.github.io/summarize/移动端填坑/样式.html {基本设置，初始化reset}
+- 移动端填坑 https://tetegw.github.io/summarize/移动端重置/样式.html {基本设置，初始化reset}
 - 图片预览及转base64 https://tetegw.github.io/summarize/图片预览及base64/  {兼容处理}
 - 日期格式化 https://tetegw.github.io/summarize/常用demo/日期格式化.html   {日期格式化yyyy-MM-dd HH:mm:ss}
