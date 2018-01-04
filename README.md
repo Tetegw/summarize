@@ -5,9 +5,9 @@
 - 前端路由  https://tetegw.github.io/summarize/【实验储备】前端路由/index.html {前端路由小框架}
 - vue对象响应问题 https://tetegw.github.io/summarize/【实验储备】vue相关demo/对象响应set.html
 - 移动端rem https://tetegw.github.io/summarize/【实验储备】移动端rem/app/index {移动端rem实践案例}
-- 移动端填坑 https://tetegw.github.io/summarize/【技术储备】移动端重置/样式.html {基本设置，初始化reset}
+- 移动端填坑 https://tetegw.github.io/summarize/【实验储备】移动端重置/样式.html {基本设置，初始化reset}
 - 图片预览及转base64 https://tetegw.github.io/summarize/【实验储备】图片预览及base64/  {兼容处理}
-- 日期格式化 https://tetegw.github.io/summarize/【技术储备】日期格式化/index.html   {日期格式化yyyy-MM-dd HH:mm:ss}
+- 日期格式化 https://tetegw.github.io/summarize/【实验储备】日期格式化/index.html   {日期格式化yyyy-MM-dd HH:mm:ss}
 
 ### 其它项目Demo
 
