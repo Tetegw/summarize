@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>遮罩滚动</title>
+  <style>
+    .wrap p {
+      margin: 40px 0;
+    }
+
+    .mask-wrap1{
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      text-align: center;
+      display: none;
+    }
+
+    .mask-wrap1.show{
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <input type="button" class="btn1" value="全屏弹窗">
+    <div class="mask-wrap1">
+      <p>我是mask</p>
+      <input type="button" class="close1" value="关闭">
+    </div>
+    <p>我是测试01</p>
+    <p>我是测试02</p>
+    <p>我是测试03</p>
+    <p>我是测试04</p>
+    <p>我是测试05</p>
+    <p>我是测试01</p>
+    <p>我是测试02</p>
+    <p>我是测试03</p>
+    <p>我是测试04</p>
+    <p>我是测试05</p>
+    <p>我是测试05</p>
+    <p>我是测试01</p>
+    <p>我是测试02</p>
+    <p>我是测试03</p>
+    <p>我是测试04</p>
+    <p>我是测试05</p>
+  </div>
+  <script>
+    var btn1 = document.querySelector('.btn1')
+    var close1 = document.querySelector('.close1')
+    var maskWrap1 = document.querySelector('.mask-wrap1')
+    close1.addEventListener('touchstart', function () {
+      maskWrap1.classList.remove('show')
+    })
+    btn1.addEventListener('click', function () {
+      maskWrap1.classList.add('show')
+      maskWrap1.addEventListener('touchstart', function (e) {
+        e.preventDefault()
+      })
+    })
+  </script>
+</body>
+
+</html>
