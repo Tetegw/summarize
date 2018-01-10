@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <svg class="social" width="500px" height="500px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.2 (33826) - http://www.bohemiancoding.com/sketch -->
+    <polygon class="path" stroke="#979797" stroke-width="0" fill="none" points="208.621094 191 104 377.289062 204.71875 376.425781 204.71875 439.931963 232.613335 439.931963 232.613335 377.439955 306.964343 377.439955"></polygon>
+    </svg>
+</body>
+
+<script src="./anime.js"></script>
+<script>
+    var socialTimeline = anime.timeline({
+        autoplay: true,
+        direction: 'alternate',
+        loop: true
+    });
+
+    socialTimeline
+        .add({
+            targets: '.social',
+            opacity: 1,
+            duration: 500
+        })
+        .add({
+            targets: '.path',
+            points: {
+                value: [
+                    "208.621094 191 104 377.289062 204.71875 376.425781 204.71875 439.931963 232.613335 439.931963 232.613335 377.439955 306.964343 377.439955",
+                    "157.351562 208 88 314.804688 105.328125 422.152344 244.695312 406.820312 323.832031 359.222656 283.257812 288.195312 280.757812 219.023438"
+                ],
+                duration: 700,
+                delay: 200,
+                easing: 'easeInOutQuart'
+            },
+            fill: {
+                value: ['#3b5998', '#4099ff'],
+                duration: 700,
+                delay: 200,
+                easing: 'easeInOutQuart'
+            },
+        })
+        .add({
+            targets: '.social',
+            opacity: 1,
+            duration: 500
+        });
+</script>
+
+</html>
