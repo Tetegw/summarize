@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
 </head>
+
 <body>
   <script>
+
     // 通过调用实现对对象的[响应式]化
-    function defineReactive (obj, key, val) { 
+    function defineReactive(obj, key, val) {
       // 初始化一个订阅者
       const dep = new Dep()
       // 响应
@@ -31,7 +34,7 @@
       })
     }
     // 批量实现响应式
-    function observer (obj) {
+    function observer(obj) {
       if (!obj || (typeof obj !== 'object')) {
         return
       }
@@ -41,13 +44,13 @@
     }
 
     // 封装一个Vue
-    class Vue {
+    /* class Vue {
       // Vue构造类
       constructor(options) {
         this._data = options.data
         observer(this._data)
       }
-    }
+    } */
 
     // 订阅者，存放Watcher观察者对象
     class Dep {
@@ -56,11 +59,11 @@
         this.subs = []
       }
       // 在subs中添加一个Watcher对象
-      addSub (sub) {
+      addSub(sub) {
         this.subs.push(sub)
       }
       // 通知所有Watcher对象更新视图
-      notify () {
+      notify() {
         this.subs.forEach((sub) => {
           sub.update()
         })
@@ -74,22 +77,32 @@
         Dep.target = this
       }
       // 更新视图的方法
-      update () {
+      update() {
         console.log('视图更新了...')
       }
     }
     Dep.target = null
 
     // 实例化
-    /* let o = new Vue({
+    class Vue {
+      constructor(options) {
+        this._data = options.data
+        observer(this._data)
+        /* 新建一个Watcher观察者对象，这时候Dep.target会指向这个Watcher对象 */
+        new Watcher()
+        /* 在这里模拟render的过程，为了触发test属性的get函数 */
+        console.log('render~', this._data.test)
+      }
+    }
+    let newVue = new Vue({
       data: {
-        test: 'Hello World',
-        test2: 'Hello World2'
+        'aa': 11,
+        'test': '212'
       }
     })
-    o._data.test = 'goodBye World'
-    o._data.test2 = 'goodBye World2' */
+    console.log(newVue)
 
   </script>
 </body>
+
 </html>
