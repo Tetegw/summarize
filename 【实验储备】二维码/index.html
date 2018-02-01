@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>二维码</title>
+</head>
+
+<body>
+  请输入链接：
+  <input type="text" class="text" value="">
+  <button class="btn">点击生成</button>
+  图片为：
+  <div id="test"></div>
+
+  
+  <script src="./qrcode.min.js"></script>
+  <script>
+    var btn = document.querySelector('.btn')
+    var test = document.querySelector('#test')
+    btn.addEventListener('click', function () {
+      var textValue = document.querySelector('.text').value
+      test.innerHTML = ''
+      var qrcode = new QRCode("test", {
+        text: textValue,
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      })
+    })
+  </script>
+</body>
+
+</html>
