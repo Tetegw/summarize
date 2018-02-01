@@ -26,3 +26,16 @@ PI = 3.1415926
 PI = '11'
 
 print PI
+
+
+for x in [1, 2, 3, 4]:
+  print x
+
+y = 98
+while y > 100:
+  print 'a'
+else:
+  print 'b'
+  
+
+print range(10)
