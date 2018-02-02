@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>bmob测试</title>
+</head>
+
+<body>
+  <script src="./jsv1.1.7/bmob-min.js"></script>
+  <script>
+    Bmob.initialize("b0359ad4154cac5660ec396c7411f389", "588a4ae2748d661c915f14c4dff4ac10");
+    /* var GameScore = Bmob.Object.extend("GameScore");
+    var gameScore = new GameScore();
+    gameScore.set("score", 1337);
+    gameScore.save(null, {
+      success: function (object) {
+        alert("create object success, object id:" + object.id);
+      },
+      error: function (model, error) {
+        alert("create object fail");
+      }
+    });
+
+
+    var GameScore = Bmob.Object.extend("GameScore");
+    var query = new Bmob.Query(GameScore);
+    query.equalTo("score", 1337);
+    // 查询所有数据
+    query.find({
+      success: function (results) {
+        alert("共查询到 " + results.length + " 条记录");
+        // 循环处理查询到的数据
+        for (var i = 0; i < results.length; i++) {
+          var object = results[i];
+          alert(object.id + ' - ' + object.get('playerName'));
+        }
+      },
+      error: function (error) {
+        alert("查询失败: " + error.code + " " + error.message);
+      }
+    }); */
+
+    /* var user = new Bmob.User();
+    user.set("username", "sunchen");
+    user.set("password", "rssc1801");
+    user.set("email", "asfasd@qq.com");
+
+    // other fields can be set just like with Bmob.Object
+    user.set("phone", "415-392-0202");
+
+    user.signUp(null, {
+      success: function (user) {
+        // Hooray! Let them use the app now.
+      },
+      error: function (user, error) {
+        // Show the error message somewhere and let the user try again.
+        alert("Error: " + error.code + " " + error.message);
+      }
+    }); */
+
+    Bmob.User.logIn("sunchen", "rssc1801", {
+      success: function(user) {
+        alert('登录成功')
+        Bmob.User.requestEmailVerify("1151832942@qq.com", {
+          success: function() {
+            // Password reset request was sent successfully
+            alert('发送成功')
+          },
+          error: function(error) {
+            // Show the error message somewhere
+            alert("Error: " + error.code + " " + error.message);
+          }
+        }); 
+        // Do stuff after successful login.
+      },
+      error: function(user, error) {
+        // The login failed. Check error to see why.
+      }
+    });
+    
+  </script>
+</body>
+
+</html>
