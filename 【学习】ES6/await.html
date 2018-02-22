@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Async/Await</title>
+</head>
+
+<body>
+  <script>
+    let sleep = function (timeout) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          resolve(`sleep ${timeout}`)
+        }, timeout)
+      })
+    }
+
+    /* sleep(3000).then((res) => {
+      console.log(res)
+    }).catch((res) => {
+      console.log(res)
+    })  */
+
+    let start = async function(timeout) {
+      try {
+        console.log('start')
+        for (let i = 0; i < 10; i++) {
+          // 注意这里不能用forEach，会改变上下文，await必须在async的上下文中
+          let res = await sleep(timeout)
+          console.log(`次数${i}---${res}`)
+        }
+        console.log('end')
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    start(1000)
+
+    // Promise对象减少了深层嵌套问题，但是未解决异步的写法(.then)
+    // async和await配合Promise对象，解决了异步的写法
+  </script>
+</body>
+
+</html>

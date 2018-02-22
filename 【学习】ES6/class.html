@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>class</title>
+</head>
+<body>
+  <script>
+    try {
+      new Student('孙晨', 18)
+    } catch (error) {
+      console.log(error)    // ReferenceError: Student is not defined，不存在变量提升
+    }
+
+    // =====定义类=====
+    class Student {
+      constructor (name, age) {
+        this.name = name,
+        this.age = age
+      }
+      say () {
+        console.log(`my name is ${this.name}, my hobby is ${this.hobby}`)
+      }
+      static staticFn () {
+        console.log('我是静态方法')
+      }
+    }
+
+    // =====继承=====
+    class maleStd extends Student {
+      constructor (name, age, hobby) {
+        super(name, age)    // 继承父类
+        this.hobby = hobby  // 自己属性
+      }
+      coding () {
+        console.log(`extends Student，my name is ${this.name}, my hobby is ${this.hobby}`)
+      }
+    }
+
+    let std1 = new Student('孙晨', 18)
+    let std2 = new maleStd('江北晨', 20, '干')
+    std1.say()                                  // my name is 孙晨, my hobby is undefined
+    std2.say()                                  // my name is 江北晨, my hobby is 干
+    std2.coding()                               // extends Student，my name is 江北晨, my hobby is 干
+    Student.staticFn()                          // 我是静态方法
+    console.log(typeof Student)                 // function， 类比es5构造函数
+    console.log(Student.prototype)              // 指向实例的原型
+    console.log(std1.__proto__)                 // 指向实例的原型
+    console.log(Student.prototype.constructor)  // 指向类本身
+
+
+  </script>
+</body>
+</html>
