@@ -1,0 +1,24 @@
+@import url('./rest.css');
+
+.autoprefixer { 
+  display: flex; 
+} 
+
+a {
+  border-radius: 5px;
+}
+
+::placeholder {
+  color: gray;
+}
+
+/* Testing cssnext */ 
+.cssnext { 
+  background: color(red alpha(-10%)); 
+} 
+
+/* Testing precss */ 
+.precss { 
+  @if 3 < 5 { background: green; } 
+  @else { background: blue; } 
+}

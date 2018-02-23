@@ -1,0 +1,23 @@
+{
+  "name": "postcss",
+  "version": "0.0.1",
+  "description": "test PostCSS gulp plugin",
+  "keywords": [
+    "gulpplugin",
+    "PostCSS",
+    "css"
+  ],
+  "author": "Tetegw",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^8.0.0",
+    "cssnano": "^3.10.0",
+    "cssnext": "^1.8.4",
+    "gulp": "^3.9.1",
+    "gulp-postcss": "^6.0.1",
+    "postcss": "^5.0.0",
+    "postcss-import": "^11.1.0",
+    "precss": "^3.1.1"
+  }
+}
