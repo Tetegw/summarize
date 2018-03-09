@@ -9,7 +9,8 @@ module.exports = {
             "tab"
         ],
         "linebreak-style": [
-            "error"
+            "error",
+            "unix"
         ],
         "quotes": [
             "error",
