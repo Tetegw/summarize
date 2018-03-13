@@ -90,8 +90,6 @@
         observer(this._data)
         /* 新建一个Watcher观察者对象，这时候Dep.target会指向这个Watcher对象 */
         new Watcher()
-        /* 在这里模拟render的过程，为了触发test属性的get函数 */
-        console.log('render~', this._data.test)
       }
     }
     let newVue = new Vue({
@@ -101,7 +99,10 @@
       }
     })
     console.log(newVue)
-
+    /* 在这里模拟render的过程，为了触发test属性的get函数，这样就加入依赖了 */
+    console.log('render~', newVue._data.test)
+    /* 在这里模拟触发test属性的set函数，这样就触发依赖的监听者从而update */
+    newVue._data.test = '改变'
   </script>
 </body>
 
