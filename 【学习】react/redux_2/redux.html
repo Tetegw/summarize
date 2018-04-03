@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>redux</title>
+</head>
+
+<body>
+  <script src="./redux.min.js"></script>
+  <script>
+    // 定义reducer.js
+    /** 优化前
+      const reducer = function (state = {}, action) {
+      switch (action.type) {
+        case 'ADD_TODO':
+          return Object.assign({}, state, { 'ADD_TODO_state': action.payload })
+        case 'ADD_TODO_COPY':
+          return Object.assign({}, state, { 'ADD_TODO_COPY_state': action.payload })
+        default:
+          return state
+      }
+    } 
+    **/
+    const reducer = {
+      ADD_TODO_state_name: (state, action) => {
+        return format(state, action, 'ADD_TODO')
+      },
+      ADD_TODO_COPY_state_name: (state, action) => {
+        return format(state, action, 'ADD_TODO_COPY')
+      },
+      ADD_TODO_COPY_COPY_state_name: (state, action) => {
+        return format(state, action, 'ADD_TODO_COPY_COPY')        
+      } 
+    }
+    const format = (state ={}, action, type) => {
+      if (action.type === type) {
+        return action.payload
+      } else {
+        return state
+      }
+    }
+    
+    // 定义action.js
+    function addTodo(obj) {
+      return {
+        type: 'ADD_TODO',
+        payload: obj
+      }
+    }
+    function addTodo_copy(payload) {
+      return {
+        type: 'ADD_TODO_COPY',
+        payload
+      }
+    }
+    function addTodo_copy_copy(payload) {
+      return {
+        type: 'ADD_TODO_COPY_COPY',
+        payload
+      }
+    }
+
+    // 容器，关联reducer
+    let createStore = window.Redux.createStore
+    let combineReducers = window.Redux.combineReducers
+    // const store = createStore(reducer)   // 优化前
+    const store = createStore(combineReducers(reducer))    
+
+    // 监听变化
+    store.subscribe(() =>
+      console.log('state 变化了================')
+    )
+
+    // dispatch
+    let newState = store.dispatch(addTodo({ name: '孙晨' }))  
+    console.log(newState)
+    let newState_copy = store.dispatch(addTodo_copy('sunchen'))
+    console.log(newState_copy)
+    let newState_copy_copy = store.dispatch(addTodo_copy_copy({name: 'Tetegw'}))
+    console.log(newState_copy_copy)
+    
+
+    let state = store.getState()
+    console.log(state)
+
+
+    
+  </script>
+</body>
+
+</html>
