@@ -278,3 +278,17 @@ let state = store.getState()
 console.log(state)
 ```
 
+
+=>  [查看完整效果](https://tetegw.github.io/summarize/【学习】react/redux_2/redux.html)
+=>  [查看完整代码](https://github.com/Tetegw/summarize/blob/master/%E3%80%90%E5%AD%A6%E4%B9%A0%E3%80%91react/redux_2/redux.html)
+
+```
+// 打印结果
+state 变化了================
+{type: "ADD_TODO", payload: {…}}payload: {name: "孙晨"}type: "ADD_TODO"__proto__: Object
+state 变化了================
+{type: "ADD_TODO_COPY", payload: "sunchen"}payload: "sunchen"type: "ADD_TODO_COPY"__proto__: Object
+state 变化了================
+{type: "ADD_TODO_COPY_COPY", payload: {…}}payload: {name: "Tetegw"}type: "ADD_TODO_COPY_COPY"__proto__: Object
+{ADD_TODO_state_name: {…}, ADD_TODO_COPY_state_name: "sunchen", ADD_TODO_COPY_COPY_state_name: {…}}ADD_TODO_COPY_COPY_state_name: {name: "Tetegw"}ADD_TODO_COPY_state_name: "sunchen"ADD_TODO_state_name: {name: "孙晨"}__proto__: Object
+```

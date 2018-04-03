@@ -9,6 +9,7 @@
 - 图片预览及转base64 https://tetegw.github.io/summarize/【实验储备】图片预览及base64/  {兼容处理}
 - 日期格式化 https://tetegw.github.io/summarize/【实验储备】日期格式化/index.html   {日期格式化yyyy-MM-dd HH:mm:ss}
 - 生成二维码 https://tetegw.github.io/summarize/【实验储备】二维码/index.html   {日期格式化yyyy-MM-dd HH:mm:ss}
+- redux https://tetegw.github.io/summarize/【学习】react/redux_2/redux.html  {redux实践}
 
 ### 其它项目Demo
 
