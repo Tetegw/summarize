@@ -5,7 +5,7 @@ var autoprefixer = require('autoprefixer')  // 处理浏览器私有前缀
 var precss = require('precss')              // 像Sass的函数
 var atImport = require('postcss-import')    // 将import引入的合成一个
 var cssnano = require('cssnano')            // 优化，压缩等
-var modules =  require('postcss-modules')
+var modules =  require('postcss-modules')   // 可以将类名等转换成hash值，从而避免样式冲突。
 
 gulp.task('css', function () {
   var processors = [
@@ -20,5 +20,3 @@ gulp.task('css', function () {
     .pipe(postcss(processors))
     .pipe(gulp.dest('./dist'))
 })
-
-// css module 可以将类名等转换成hash值，从而避免样式冲突。
