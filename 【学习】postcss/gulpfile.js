@@ -5,6 +5,7 @@ var autoprefixer = require('autoprefixer')  // 处理浏览器私有前缀
 var precss = require('precss')              // 像Sass的函数
 var atImport = require('postcss-import')    // 将import引入的合成一个
 var cssnano = require('cssnano')            // 优化，压缩等
+var modules =  require('postcss-modules')
 
 gulp.task('css', function () {
   var processors = [
@@ -12,7 +13,8 @@ gulp.task('css', function () {
     autoprefixer({"browsers": ["> 1%","last 2 versions"]}),   
     // 指定浏览器版本 https://www.cnblogs.com/tinyphp/p/4738571.html
     precss,
-    cssnano
+    cssnano,
+    modules({"generateScopedName": '[name]_[local]_[hash:base64:5]'}) // https://github.com/css-modules/postcss-modules
 ];
   return gulp.src('./src/index.css')
     .pipe(postcss(processors))
