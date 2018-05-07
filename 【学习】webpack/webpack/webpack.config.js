@@ -53,8 +53,13 @@ module.exports = {
                 // 指定使用的loader
                 // 如果需要单独把 CSS 文件分离出来，我们需要使用 extract-text-webpack-plugin 插件。 并且在plugin中new一个配置实例
                 use: ExtractTextPlugin.extract({
-                    use: [
-                        'css-loader',   // 必须排在less-loader前面
+                    use: [{
+                            // 必须排在less-loader前面 ！！
+                            loader: 'css-loader',
+                            options: {
+                                minimize: true, // 使用 css 的压缩功能
+                            },
+                        },   
                         'less-loader'
                     ],
                     fallback: 'style-loader'
@@ -72,7 +77,35 @@ module.exports = {
                     path.resolve(__dirname, 'src')
                 ],
                 use: [{
-                    loader: 'file-loader'
+                    // url-loader 和 file-loader 的功能类似，但前者可以转成base64
+                    // 单位是 Byte，当文件小于 8KB 时作为 DataURL 处理
+                    // 顺序需要放在image-webpack-loader压缩上面 ！！
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192, 
+                    },
+                },{
+                    // image-webpack-loader 的压缩是使用 imagemin 提供的一系列图片压缩类库来处理的
+                    loader: 'image-webpack-loader',
+                    options: {
+                        mozjpeg: { // 压缩 jpeg 的配置
+                            progressive: true,
+                            quality: 65
+                        },
+                        optipng: { // 使用 imagemin-optipng 压缩 png，enable: false 为关闭
+                            enabled: false,
+                        },
+                        pngquant: { // 使用 imagemin-pngquant 压缩 png
+                            quality: '65-90',
+                            speed: 4
+                        },
+                        gifsicle: { // 压缩 gif 的配置
+                            interlaced: false,
+                        },
+                        webp: { // 开启 webp，会把 jpg 和 png 图片压缩为 webp 格式
+                            quality: 75
+                        }
+                    }
                 }]
             },
             {
@@ -96,12 +129,20 @@ module.exports = {
         new CopyWebpackPlugin([
             { from: 'static/*.*', to: '', } 
         ]),
+        // webpack 4.x 版本运行时，mode 为 production 即会启动压缩 JS 代码的插件，3.x可以用这个插件
         new UglifyPlugin(),
         // 如果我们的文件名或者路径会变化，例如使用 [hash] 来进行命名，那么最好是将 HTML 引用路径和我们的构建结果关联起来，这个时候我们可以使用 html-webpack-plugin。
         // 如果需要添加多个页面关联，那么实例化多个 html-webpack-plugin， 并将它们都放到 plugins 字段数组中就可以了。
         new HtmlWebpackPlugin({
             filename: 'index.html', // 配置输出文件名和路径
-            template: './index.html'    // 配置html文件模板，将js和这个关联起来
+            template: './index.html',    // 配置html文件模板，将js和这个关联起来
+            minify: { // 压缩 HTML 的配置
+                minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
+                minifyJS: true, // 压缩 HTML 中出现的 JS 代码
+                removeComments: true,   // 注释
+                collapseWhitespace: true,   // 空格
+                removeAttributeQuotes: true // 属性引号
+            }
         }),
         // 使用方式特别，除了在plugins字段添加插件实例之外，还需要调整 loader 对应的配置。
         // 配置输出的文件名，这里同样可以使用 [hash]，多个文件会加载在一起
@@ -109,12 +150,19 @@ module.exports = {
         new ExtractTextPlugin({
             filename: '[name].css?rd=[hash]'    
         }),
+        // 用于启动 HMR 时可以显示模块的相对路径
+        new webpack.NamedModulesPlugin(),   
+        // Hot Module Replacement 的插件
+        //【在这个概念出来之前，我们使用过 Hot Reloading，当代码变更时通知浏览器刷新页面】
+        //【HMR 可以理解为增强版的 Hot Reloading，不用整个页面刷新，而局部替换掉模块】
+        new webpack.HotModuleReplacementPlugin()
     ],
     // 在 webpack 的配置中，可以通过 devServer 字段来配置 webpack-dev-server，如端口设置、启动 gzip 压缩等，这里简单讲解几个常用的配置。
     devServer: {
         // public: 'http://localhost:8080/',   // public 字段用于指定静态服务的域名
         // publicPath: 'static/',      // 字段用于指定构建好的静态文件在浏览器中用什么路径去访问
         port: '1234',
+        hot: true,  // 模块热替换
         before(app) {
             // 当访问 /some/path 路径时，返回自定义的 json 数据
             // 可以用于拦截部分请求返回特定内容，或者实现简单的数据 mock。
