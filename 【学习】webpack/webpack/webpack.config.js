@@ -22,7 +22,8 @@ module.exports = (env, argv) => {
 module.exports = {
     entry: {
         // 入口
-        index: './src/index.js'
+        index: './src/index.js',
+        vendor: ["vue"]
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -30,7 +31,9 @@ module.exports = {
         // name 是根据entry中的[index]名字
         // filename: '[name]_[hash].js' 
         // ?rd=[hash] 配合HtmlWebpackPlugin，可以将js插入html中加上随机数
-        filename: '[name].js?rd=[hash]'    
+        // 使用chunkhash，最大程度实现缓存
+        // 热更新(HMR)不能和[chunkhash]同时使用。 解决：如果是开发环境，将配置文件中的chunkhash 替换为hash
+        filename: '[name].js?rd=[hash:8]'
     },
     // webpack 中有一个很关键的模块 enhanced-resolve 就是处理依赖模块路径的解析的
     resolve: {
@@ -148,14 +151,21 @@ module.exports = {
         // 配置输出的文件名，这里同样可以使用 [hash]，多个文件会加载在一起
         // name 是根据entry中的[index]名字
         new ExtractTextPlugin({
-            filename: '[name].css?rd=[hash]'    
+            filename: '[name].css?rd=[hash:8]'    
         }),
         // 用于启动 HMR 时可以显示模块的相对路径
         new webpack.NamedModulesPlugin(),   
         // Hot Module Replacement 的插件
         //【在这个概念出来之前，我们使用过 Hot Reloading，当代码变更时通知浏览器刷新页面】
         //【HMR 可以理解为增强版的 Hot Reloading，不用整个页面刷新，而局部替换掉模块】
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        // webpack3.* 代码chunks分离
+        /* new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',         // 使用 vendor 入口作为公共部分
+            filename: "vendor.js",  
+            // minChunks: 3,        // 公共的部分必须被 3 个 chunk 共享
+            minChunks: Infinity,    // 这个配置会让webpack不再自动抽离公共模块，不管超过多少都不抽离，只抽离指定的vendor
+        }) */
     ],
     // 在 webpack 的配置中，可以通过 devServer 字段来配置 webpack-dev-server，如端口设置、启动 gzip 压缩等，这里简单讲解几个常用的配置。
     devServer: {
@@ -179,7 +189,21 @@ module.exports = {
                 }
             },
         } */
-    }
+    },
+    optimization: {
+        // webpack4.* chunks分离
+        splitChunks: {
+            // chunks: "all", // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
+            cacheGroups: {
+                vendor: {
+                    chunks: "initial",
+                    test: "vendor",
+                    name: "vendor", // 使用 vendor 入口作为公共部分
+                    enforce: true,
+                },
+            }
+        }
+    },
 }
 
 /* env相关总结(dev和build一样)：
