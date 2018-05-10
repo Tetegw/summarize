@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
+
 // webpack 3.0 在script中配置
 console.log('ENV =====>', process.env.NODE_ENV) 
 
@@ -22,8 +23,8 @@ module.exports = (env, argv) => {
 module.exports = {
     entry: {
         // 入口
-        index: './src/index.js',
-        vendor: ["vue"]
+        vendor: ["vue"],
+        index: './src/index.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -33,10 +34,16 @@ module.exports = {
         // ?rd=[hash] 配合HtmlWebpackPlugin，可以将js插入html中加上随机数
         // 使用chunkhash，最大程度实现缓存
         // 热更新(HMR)不能和[chunkhash]同时使用。 解决：如果是开发环境，将配置文件中的chunkhash 替换为hash
-        filename: '[name].js?rd=[hash:8]'
+        filename: '[name].js?rd=[hash:8]',
+        // chunk的文件名可以单独指定，懒加载可看index.js中
+        chunkFilename: '[name].js?rd=[hash:5]',
     },
     // webpack 中有一个很关键的模块 enhanced-resolve 就是处理依赖模块路径的解析的
     resolve: {
+        modules: [
+            // 使用绝对路径指定项目 node_modules，不做过多(一层层)查询
+            path.resolve(__dirname, 'node_modules'), 
+        ],
         extensions: ['.vue', '.js', '.json', '.jsx', '.css'],
         alias: {
             'css': path.resolve(__dirname, 'src/assets/css')
@@ -48,7 +55,7 @@ module.exports = {
                 // 匹配文件路径的正则表达式，通常我们都是匹配文件类型后缀
                 test: /\.(less|css)$/,
                 include: [
-                    // 指定哪些路径下的文件需要经过 loader 处理
+                    // 指定哪些路径下的文件需要经过 loader 处理，node_module不需要处理，性能问题
                     // 方法会把一个路径或路径片段的序列解析为一个绝对路径。
                     // http://nodejs.cn/api/path.html#path_path_resolve_paths
                     path.resolve(__dirname, 'src')
@@ -62,8 +69,29 @@ module.exports = {
                             options: {
                                 minimize: true, // 使用 css 的压缩功能
                             },
-                        },   
-                        'less-loader'
+                        },
+                        // 1. loader: 'postcss-loader'
+                        // 2. postcss-loader、autoprefixer
+                        // 3. .postcssrc.js
+                        /* 
+                            module.exports = {
+                                "plugins": {
+                                    // 4. to edit target browsers: use "browserlist" field in package.json
+                                    "autoprefixer": {}
+                                }
+                            }
+                        */
+                       /* 
+                       "browserslist": [
+                            "defaults",
+                            "not ie < 11",
+                            "last 2 versions",
+                            "> 1%",
+                            "iOS 7",
+                            "last 3 iOS versions"
+                        ] */
+                        { loader: 'postcss-loader'},
+                        { loader: 'less-loader' }
                     ],
                     fallback: 'style-loader'
                 }), 
@@ -132,7 +160,7 @@ module.exports = {
         new CopyWebpackPlugin([
             { from: 'static/*.*', to: '', } 
         ]),
-        // webpack 4.x 版本运行时，mode 为 production 即会启动压缩 JS 代码的插件，3.x可以用这个插件
+        // webpack 4.x 版本运行时，mode 为 production 即会启动压缩 JS 代码的插件，屏蔽此插件，3.x可以用这个插件
         new UglifyPlugin(),
         // 如果我们的文件名或者路径会变化，例如使用 [hash] 来进行命名，那么最好是将 HTML 引用路径和我们的构建结果关联起来，这个时候我们可以使用 html-webpack-plugin。
         // 如果需要添加多个页面关联，那么实例化多个 html-webpack-plugin， 并将它们都放到 plugins 字段数组中就可以了。
@@ -151,9 +179,10 @@ module.exports = {
         // 配置输出的文件名，这里同样可以使用 [hash]，多个文件会加载在一起
         // name 是根据entry中的[index]名字
         new ExtractTextPlugin({
-            filename: '[name].css?rd=[hash:8]'    
+            filename: 'index.css?rd=[hash:8]'
         }),
         // 用于启动 HMR 时可以显示模块的相对路径
+        // 在 HMR 更新的浏览器控制台中打印更易读的模块名称
         new webpack.NamedModulesPlugin(),   
         // Hot Module Replacement 的插件
         //【在这个概念出来之前，我们使用过 Hot Reloading，当代码变更时通知浏览器刷新页面】
@@ -216,4 +245,9 @@ webpack 4:
     1. 在webpack.config.js中【不能】获取process.env.NODE_ENV，需要把配置作为函数返回值暴露 module.exports = (env, argv) => {}，其中arv.mode可以获取
     2. 在runtime项目代码中可以获取到 process.env.NODE_ENV。(注意不要设置webpack.DefinePlugin)
     3. 更加快速的增量编译构建。(hot reload比 webpack 3比较快)
+*/
+
+/* 
+    webpack 4.x 需要指定 mode 为 production，而 webpack 3.x 的话需要配置 UglifyJsPlugin。启动了之后，构建出来的结果就会移除【无用的代码】的那一部分代码了。
+    如果你在项目中使用了 Babel 的话，要把 Babel 解析模块语法的功能关掉，在 .babelrc 配置中增加 "modules": false 这个配置
 */

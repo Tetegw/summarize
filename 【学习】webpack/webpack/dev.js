@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+var chalk = require('chalk')
 // 就是在 Express 中提供 webpack-dev-server 静态服务能力的一个中间件 【dev】
 const midddleware = require('webpack-dev-middleware')   
 const webpackOptions = require('./webpack.config.js')
@@ -15,5 +16,6 @@ app.use(midddleware(compiler, {
 }))
 
 app.listen(3000, () => {
-    console.log('app run...')
+    console.log(chalk.magenta('项目运行...'))
+    console.log(chalk.cyan('哈哈...'))
 })
